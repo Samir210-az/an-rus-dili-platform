@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useLang } from '../context/LangContext';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
+  const { lang, changeLang, t } = useLang();
   const navigate = useNavigate();
 
   return (
@@ -15,15 +17,20 @@ export default function Navbar() {
         🎓 AN Mərkəzi
       </Link>
       <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-        <Link to="/schedule">Dərs Cədvəli</Link>
-        <Link to="/homeworks">Tapşırıqlar</Link>
-        <Link to="/announcements">Elanlar</Link>
+        <Link to="/schedule">{t('schedule')}</Link>
+        <Link to="/homeworks">{t('homeworks')}</Link>
+        <Link to="/announcements">{t('announcements')}</Link>
         {(user?.role === 'admin' || user?.role === 'super_admin') && (
-          <Link to="/admin">Admin Panel</Link>
+          <Link to="/admin">{t('adminPanel')}</Link>
         )}
+        {user?.role === 'student' && <Link to="/progress">{t('progress')}</Link>}
+        <select value={lang} onChange={e => changeLang(e.target.value)} style={{ borderRadius: 8, padding: 4 }}>
+          <option value="az">AZ</option>
+          <option value="ru">RU</option>
+        </select>
         <span>👤 {user?.firstName || user?.username}</span>
         <button className="btn btn-secondary" onClick={() => { logout(); navigate('/'); }}>
-          Çıxış
+          {t('logout')}
         </button>
       </div>
     </nav>

@@ -11,6 +11,9 @@ const lessonRoutes = require('./routes/lessonRoutes');
 const homeworkRoutes = require('./routes/homeworkRoutes');
 const announcementRoutes = require('./routes/announcementRoutes');
 const studentRoutes = require('./routes/studentRoutes');
+const uploadRoutes = require('./routes/uploadRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
+const { startReminderJobs } = require('./utils/cronJobs');
 
 const app = express();
 
@@ -25,6 +28,9 @@ app.use('/api/lessons', lessonRoutes);
 app.use('/api/homeworks', homeworkRoutes);
 app.use('/api/announcements', announcementRoutes);
 app.use('/api/students', studentRoutes);
+app.use('/api/upload', uploadRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/uploads', express.static('uploads'));
 
 app.get('/api/health', (req, res) => res.json({ status: 'OK', project: 'AN Rus Dili Platforması' }));
 
@@ -32,6 +38,7 @@ const PORT = process.env.PORT || 5000;
 
 sequelize.sync().then(() => {
   app.listen(PORT, () => console.log(`🚀 Server ${PORT} portunda işləyir`));
+  startReminderJobs();
 }).catch(err => console.error('DB qoşulma xətası:', err));
 
 module.exports = app;
