@@ -35,9 +35,15 @@ npm run dev
 ## Modullar
 - 🔐 Giriş (sign-up yoxdur, login Admin tərəfindən yaradılır)
 - 📅 Dərs Cədvəli + İştirak qeydi
+- 📚 Kurs Materialları (Danışıq, Oxu, Yazı, Qrammatika, Oyun) + interaktiv testlər (auto-qiymətləndirmə)
 - 📝 Ev Tapşırıqları + Qiymətləndirmə
 - ⭐ Bal/Rütbə sistemi (Tələbə → Mütəxəssis → Ustad)
 - 📢 Elanlar
+- 📊 Tərəqqi qrafiki (recharts)
+- 👨‍👩‍👧 Valideyn üçün "Evdə necə kömək etməli?" bölməsi
+- 💬 Müəllim-Valideyn mesajlaşma
+- 🔔 Avtomatik bildirişlər (dərs xatırlatması, tapşırıq son tarixi)
+- 🌍 İkidillilik (AZ/RU)
 - 🛠️ Admin Paneli (istifadəçi CRUD, avtomatik şifrə generasiyası)
 
 ## API Endpoint-lər (əsas)

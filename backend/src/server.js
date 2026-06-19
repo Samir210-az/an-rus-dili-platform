@@ -13,6 +13,9 @@ const announcementRoutes = require('./routes/announcementRoutes');
 const studentRoutes = require('./routes/studentRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
+const materialRoutes = require('./routes/materialRoutes');
+const messageRoutes = require('./routes/messageRoutes');
+const parentTipRoutes = require('./routes/parentTipRoutes');
 const { startReminderJobs } = require('./utils/cronJobs');
 
 const app = express();
@@ -30,6 +33,9 @@ app.use('/api/announcements', announcementRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/materials', materialRoutes);
+app.use('/api/messages', messageRoutes);
+app.use('/api/parent-tips', parentTipRoutes);
 app.use('/uploads', express.static('uploads'));
 
 app.get('/api/health', (req, res) => res.json({ status: 'OK', project: 'AN Rus Dili Platforması' }));

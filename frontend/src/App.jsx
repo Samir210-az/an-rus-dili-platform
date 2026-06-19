@@ -13,6 +13,10 @@ import Homeworks from './pages/Homeworks';
 import Announcements from './pages/Announcements';
 import AdminPanel from './pages/AdminPanel';
 import Progress from './pages/Progress';
+import Materials from './pages/Materials';
+import MaterialDetail from './pages/MaterialDetail';
+import ParentTips from './pages/ParentTips';
+import Messages from './pages/Messages';
 
 function Layout({ children }) {
   const location = useLocation();
@@ -39,6 +43,10 @@ export default function App() {
               <Route path="/homeworks" element={<ProtectedRoute><Homeworks /></ProtectedRoute>} />
               <Route path="/announcements" element={<ProtectedRoute><Announcements /></ProtectedRoute>} />
               <Route path="/progress" element={<ProtectedRoute roles={['student']}><Progress /></ProtectedRoute>} />
+              <Route path="/materials" element={<ProtectedRoute><Materials /></ProtectedRoute>} />
+              <Route path="/materials/:id" element={<ProtectedRoute><MaterialDetail /></ProtectedRoute>} />
+              <Route path="/parent-tips" element={<ProtectedRoute roles={['parent', 'admin', 'super_admin']}><ParentTips /></ProtectedRoute>} />
+              <Route path="/messages" element={<ProtectedRoute roles={['teacher', 'parent', 'admin', 'super_admin']}><Messages /></ProtectedRoute>} />
               <Route path="/admin" element={
                 <ProtectedRoute roles={['admin', 'super_admin']}><AdminPanel /></ProtectedRoute>
               } />

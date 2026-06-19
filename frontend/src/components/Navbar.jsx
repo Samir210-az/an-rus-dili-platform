@@ -18,12 +18,17 @@ export default function Navbar() {
       </Link>
       <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
         <Link to="/schedule">{t('schedule')}</Link>
+        <Link to="/materials">📚 Materiallar</Link>
         <Link to="/homeworks">{t('homeworks')}</Link>
         <Link to="/announcements">{t('announcements')}</Link>
         {(user?.role === 'admin' || user?.role === 'super_admin') && (
           <Link to="/admin">{t('adminPanel')}</Link>
         )}
         {user?.role === 'student' && <Link to="/progress">{t('progress')}</Link>}
+        {user?.role === 'parent' && <Link to="/parent-tips">👨‍👩‍👧 Tövsiyələr</Link>}
+        {['teacher', 'parent', 'admin', 'super_admin'].includes(user?.role) && (
+          <Link to="/messages">💬 Mesajlar</Link>
+        )}
         <select value={lang} onChange={e => changeLang(e.target.value)} style={{ borderRadius: 8, padding: 4 }}>
           <option value="az">AZ</option>
           <option value="ru">RU</option>
