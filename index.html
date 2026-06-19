@@ -255,7 +255,7 @@ footer .top a{color:rgba(255,255,255,.85)}
       <div class="role-tab" data-role="student" onclick="selectRole('student')">Şagird</div>
     </div>
     <div class="field"><label>İstifadəçi adı</label><input id="loginUser" type="text"></div>
-    <div class="field"><label>Şifrə</label><input id="loginPass" type="password"></div>
+    <div class="field"><label>Şifrə</label><input id="loginPass" type="password"> <label style="display:flex;align-items:center;gap:6px;margin-top:6px;font-weight:400"><input type="checkbox" onclick="document.getElementById('loginPass').type=this.checked?'text':'password'" style="width:auto"> Şifrəni göstər</label></div>
     <button class="submit-btn" onclick="doLogin()">Daxil ol</button>
     <p class="hint">Admin: admin / admin2026</p>
   </div>
@@ -272,6 +272,7 @@ footer .top a{color:rgba(255,255,255,.85)}
         <input id="newTeacherPass" placeholder="Şifrə">
       </div>
       <button class="small-btn" onclick="addTeacher()">Əlavə et</button>
+      <button class="small-btn" style="background:var(--gold-dark);margin-left:8px" onclick="toggleCreds()">👁 Şifrələri göstər/gizlət</button>
       <div id="teacherList" style="margin-top:14px"></div>
     </div>
     <div class="card">
@@ -579,21 +580,23 @@ function selectRole(r){ selectedRole=r; document.querySelectorAll('.role-tab').f
 function openLogin(){document.getElementById('loginOverlay').classList.add('open');}
 function closeLogin(){document.getElementById('loginOverlay').classList.remove('open');}
 
+function norm(s){ return (s||'').normalize('NFC').trim().toLowerCase(); }
+
 function doLogin(){
-  const u=document.getElementById('loginUser').value.trim();
-  const p=document.getElementById('loginPass').value.trim();
+  const u=norm(document.getElementById('loginUser').value);
+  const p=norm(document.getElementById('loginPass').value);
   const d=db();
   if(selectedRole==='admin'){
     let adminPass=localStorage.getItem('rd_admin_pass')||ADMIN_DEFAULT_PASS;
-    if(u===ADMIN_USER && p===adminPass){ showDash('admin',{name:'Admin'}); closeLogin(); return; }
+    if(u===norm(ADMIN_USER) && p===norm(adminPass)){ showDash('admin',{name:'Admin'}); closeLogin(); return; }
   } else if(selectedRole==='teacher'){
-    const t=d.teachers.find(x=>x.user===u && x.pass===p);
+    const t=d.teachers.find(x=>norm(x.user)===u && norm(x.pass)===p);
     if(t){ showDash('teacher',t); closeLogin(); return; }
   } else if(selectedRole==='student'){
-    const s=d.students.find(x=>x.user===u && x.pass===p);
+    const s=d.students.find(x=>norm(x.user)===u && norm(x.pass)===p);
     if(s){ showDash('student',s); closeLogin(); return; }
   }
-  alert('İstifadəçi adı və ya şifrə yanlışdır.');
+  alert('İstifadəçi adı və ya şifrə yanlışdır. Admin panelində "Şifrələri göstər" düyməsi ilə dəqiq yazılışı yoxlaya bilərsiniz.');
 }
 function logout(){
   document.querySelectorAll('.dash').forEach(x=>x.classList.remove('open'));
@@ -667,13 +670,16 @@ function renderResultsTable(){
       return `<tr><td>${s.name}</td><td>${r.count}/${ALL_LESSONS.length}</td><td>${r.pct}%</td><td><span class="grade-pill ${g.cls}">${g.label}</span></td></tr>`;
     }).join('') + `</table>`;
 }
+let credsVisible=false;
+function toggleCreds(){ credsVisible=!credsVisible; renderAdmin(); }
+
 function renderAdmin(){
   const d=db();
   document.getElementById('teacherList').innerHTML = d.teachers.length? d.teachers.map(t=>`
-    <div class="list-item"><span><span class="tag">Müəllim</span> ${t.name} (${t.user})</span><button class="small-btn danger" onclick="removeTeacher('${t.user}')">Sil</button></div>
+    <div class="list-item"><span><span class="tag">Müəllim</span> ${t.name} (${t.user})${credsVisible?` — şifrə: <b>${t.pass}</b>`:''}</span><button class="small-btn danger" onclick="removeTeacher('${t.user}')">Sil</button></div>
   `).join('') : '<div class="empty">Hələ müəllim yoxdur</div>';
   document.getElementById('studentListAdmin').innerHTML = d.students.length? d.students.map(s=>`
-    <div class="list-item"><span><span class="tag">Şagird</span> ${s.name} (${s.user}) — ${s.parent||'—'}</span><button class="small-btn danger" onclick="removeStudent('${s.user}')">Sil</button></div>
+    <div class="list-item"><span><span class="tag">Şagird</span> ${s.name} (${s.user}) — ${s.parent||'—'}${credsVisible?` — şifrə: <b>${s.pass}</b>`:''}</span><button class="small-btn danger" onclick="removeStudent('${s.user}')">Sil</button></div>
   `).join('') : '<div class="empty">Hələ şagird yoxdur</div>';
   document.getElementById('announceListAdmin').innerHTML = d.announcements.length? d.announcements.map(a=>`
     <div class="list-item"><span>${a.text}</span><span class="tag">${a.date}</span></div>
