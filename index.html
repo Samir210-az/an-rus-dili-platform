@@ -1,13 +1,298 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AN Mərkəzi - Rus Dili Hazırlıq Platforması</title>
-  <script type="module" crossorigin src="/an-rus-dili-platform/assets/index-D1-y1GHl.js"></script>
-  <link rel="stylesheet" crossorigin href="/an-rus-dili-platform/assets/index-D_vz_343.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+<title>AN Mərkəzi - Rus Dili Hazırlıq Platforması</title>
+<style>
+  :root{--primary:#FF9800;--secondary:#2196F3;--success:#4CAF50;--warning:#FFC107;--bg:#FFF8E7;--text:#2D2D2D;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Segoe UI',Tahoma,sans-serif;font-size:16px;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;}
+  a{color:inherit;text-decoration:none;}
+  .hidden{display:none !important;}
+  header{background:white;box-shadow:0 2px 6px rgba(0,0,0,.08);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:10;}
+  .logo{font-weight:700;font-size:18px;color:var(--primary);white-space:nowrap;}
+  nav{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:14px;}
+  nav a, nav button{padding:6px 10px;border-radius:8px;border:none;background:transparent;cursor:pointer;font-size:14px;}
+  nav a.active{background:#FFF3CD;}
+  select{padding:5px;border-radius:6px;border:1px solid #ddd;}
+  main{flex:1;padding:16px;max-width:900px;margin:0 auto;width:100%;}
+  .card{background:white;border-radius:14px;padding:16px;box-shadow:0 4px 10px rgba(0,0,0,.06);margin-bottom:14px;}
+  .btn{padding:9px 16px;border-radius:10px;border:none;cursor:pointer;font-weight:600;font-size:14px;color:white;background:var(--primary);}
+  .btn.secondary{background:var(--secondary);}
+  .btn.danger{background:#f44336;}
+  input,select,textarea{width:100%;padding:9px;margin:6px 0;border-radius:8px;border:1px solid #ddd;font-size:15px;}
+  .login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#FF9800,#2196F3);padding:16px;}
+  .login-box{background:white;padding:30px 24px;border-radius:18px;max-width:340px;width:100%;box-shadow:0 8px 24px rgba(0,0,0,.2);}
+  table{width:100%;border-collapse:collapse;font-size:14px;}
+  th,td{padding:8px;border-bottom:1px solid #eee;text-align:left;}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+  .tabs button{padding:8px 14px;border-radius:10px;border:none;cursor:pointer;background:#eee;font-size:14px;}
+  .tabs button.active{color:white;}
+  .badge{display:inline-block;padding:3px 9px;border-radius:8px;font-size:12px;color:white;}
+  footer{background:#2D2D2D;color:white;text-align:center;padding:14px;font-size:13px;}
+  footer a{color:var(--primary);margin-left:6px;}
+  @media (max-width:600px){
+    header{flex-direction:column;align-items:flex-start;}
+    nav{font-size:13px;}
+    main{padding:10px;}
+  }
+</style>
 </head>
 <body>
-  <div id="root"></div>
+
+<div id="loginScreen" class="login-wrap">
+  <div class="login-box">
+    <h2 style="text-align:center;color:var(--primary)">🎓 AN Mərkəzi</h2>
+    <p style="text-align:center;color:#777;margin-bottom:10px">Rus dili hazırlıq platforması</p>
+    <input id="loginUser" placeholder="İstifadəçi adı" />
+    <input id="loginPass" type="password" placeholder="Şifrə" />
+    <p id="loginError" style="color:red;font-size:13px;display:none"></p>
+    <button class="btn" style="width:100%;margin-top:8px" onclick="doLogin()">Daxil ol</button>
+    <p style="text-align:center;font-size:12px;color:#999;margin-top:10px">Qeydiyyat yoxdur — hesabınızı Admin yaradır.<br>(default: admin / admin123)</p>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+  <header>
+    <div class="logo">🎓 AN Mərkəzi</div>
+    <nav id="navLinks"></nav>
+  </header>
+  <main id="mainContent"></main>
+  <footer>
+    © <span id="year"></span> AN Psixoloji Dəstək və Reabilitasiya Mərkəzi — By s_akhundoff
+    <a href="https://instagram.com/s_akhundoff" target="_blank">Instagram</a>
+  </footer>
+</div>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// ---------- DATA LAYER (localStorage) ----------
+function loadDB(){
+  let db = JSON.parse(localStorage.getItem('an_db') || 'null');
+  if(!db){
+    db = {
+      users: [
+        {id:'1', username:'admin', password:'admin123', role:'super_admin', firstName:'Super', lastName:'Admin'}
+      ],
+      students: [],
+      teachers: [],
+      lessons: [
+        {id:'l1', topic:'Mənim ailəm', date:'Bazar ertəsi', time:'10:00-11:00', room:'1', category:'danishiq'},
+        {id:'l2', topic:'Mənim evim', date:'Çərşənbə', time:'10:00-11:00', room:'1', category:'qrammatika'},
+        {id:'l3', topic:'Mənim günüm', date:'Cümə', time:'10:00-11:00', room:'1', category:'yazi'}
+      ],
+      homeworks: [],
+      announcements: [
+        {id:'a1', title:'Xoş gəlmisiniz!', message:'Platformamıza xoş gəlmisiniz, uğurlar arzulayırıq!'}
+      ],
+      materials: {
+        danishiq: [{title:'Ailə üzvləri', content:'Мама, папа, брат, сестра, бабушка, дедушка — ailə üzvlərinin adlarını öyrənək.'}],
+        oxu: [{title:'Mətn: Mənim evim', content:'Это мой дом. Это моя комната...'}],
+        yazi: [{title:'Hərf yazma: А, Б, В', content:'Hərfləri düzgün yazmağı öyrənək.'}],
+        qrammatika: [{title:'İsimlər', content:'Дом, кот, мама — isim nümunələri.'}],
+        oyun: [{title:'Söz tapmacası', content:'ДОМ — yaşayış yeri (5 hərf).'}]
+      },
+      parentTips: [
+        {title:'Hər gün 10 dəqiqə', content:'Uşağınızla hər gün 10 dəqiqə rus dilində danışın, sözləri təkrarlayın.'}
+      ]
+    };
+    saveDB(db);
+  }
+  return db;
+}
+function saveDB(db){ localStorage.setItem('an_db', JSON.stringify(db)); }
+let db = loadDB();
+let currentUser = JSON.parse(sessionStorage.getItem('an_user') || 'null');
+
+// ---------- AUTH ----------
+function doLogin(){
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value;
+  const user = db.users.find(x => x.username === u && x.password === p);
+  const err = document.getElementById('loginError');
+  if(!user){ err.style.display='block'; err.textContent='İstifadəçi adı və ya şifrə yanlışdır'; return; }
+  currentUser = user;
+  sessionStorage.setItem('an_user', JSON.stringify(user));
+  showApp();
+}
+function logout(){
+  sessionStorage.removeItem('an_user');
+  currentUser = null;
+  document.getElementById('app').classList.add('hidden');
+  document.getElementById('loginScreen').classList.remove('hidden');
+}
+function roleLabel(r){
+  return {super_admin:'Super Admin', admin:'Admin', teacher:'Müəllim', student:'Şagird', parent:'Valideyn'}[r] || r;
+}
+
+// ---------- ROUTER ----------
+const routes = ['dashboard','schedule','materials','homeworks','announcements','progress','admin','about','contact'];
+function navigate(route){
+  if(!routes.includes(route)) route = 'dashboard';
+  location.hash = route;
+  render();
+}
+window.addEventListener('hashchange', render);
+
+function showApp(){
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+  if(!location.hash) location.hash = 'dashboard';
+  render();
+}
+
+function renderNav(){
+  const r = currentUser.role;
+  let links = [
+    ['dashboard','🏠 Ana Səhifə'],
+    ['schedule','📅 Cədvəl'],
+    ['materials','📚 Materiallar'],
+    ['homeworks','📝 Tapşırıqlar'],
+    ['announcements','📢 Elanlar'],
+  ];
+  if(r === 'student') links.push(['progress','📊 Tərəqqi']);
+  if(['admin','super_admin'].includes(r)) links.push(['admin','🛠️ Admin']);
+  links.push(['about','ℹ️ Haqqımızda'], ['contact','📞 Əlaqə']);
+
+  const current = location.hash.replace('#','') || 'dashboard';
+  document.getElementById('navLinks').innerHTML =
+    links.map(([k,l]) => `<a href="#${k}" class="${current===k?'active':''}">${l}</a>`).join('') +
+    `<span style="font-size:13px">👤 ${currentUser.firstName||currentUser.username} (${roleLabel(r)})</span>` +
+    `<button class="btn secondary" onclick="logout()">Çıxış</button>`;
+}
+
+function render(){
+  db = loadDB();
+  renderNav();
+  const route = location.hash.replace('#','') || 'dashboard';
+  const main = document.getElementById('mainContent');
+  main.innerHTML = pages[route] ? pages[route]() : pages.dashboard();
+}
+
+// ---------- PAGES ----------
+const pages = {
+  dashboard(){
+    return `<h1>Xoş gəlmisiniz, ${currentUser.firstName||currentUser.username}! 👋</h1>
+    <div class="card"><h3>📢 Son Elanlar</h3>
+      ${db.announcements.length===0?'<p>Hələ elan yoxdur.</p>':db.announcements.map(a=>`<div style="border-bottom:1px solid #eee;padding:8px 0"><strong>${a.title}</strong><p>${a.message}</p></div>`).join('')}
+    </div>`;
+  },
+  schedule(){
+    return `<h1>📅 Dərs Cədvəli</h1>
+    ${db.lessons.map(l=>`<div class="card"><strong>${l.topic}</strong><p>${l.date} | ${l.time} | Otaq: ${l.room}</p><span class="badge" style="background:#2196F3">${l.category}</span></div>`).join('')}`;
+  },
+  materials(){
+    if(!window._matCat) window._matCat = 'danishiq';
+    const cats = [['danishiq','🗣️ Danışıq','#FF9800'],['oxu','📖 Oxu','#2196F3'],['yazi','✍️ Yazı','#4CAF50'],['qrammatika','📐 Qrammatika','#9C27B0'],['oyun','🎮 Oyun','#F44336']];
+    const items = db.materials[window._matCat] || [];
+    return `<h1>📚 Kurs Materialları</h1>
+    <div class="tabs">${cats.map(([k,l,c])=>`<button style="${window._matCat===k?`background:${c};color:white`:''}" onclick="window._matCat='${k}';render()">${l}</button>`).join('')}</div>
+    ${items.length===0?'<p>Bu kateqoriyada material yoxdur.</p>':items.map(m=>`<div class="card"><strong>${m.title}</strong><p>${m.content}</p></div>`).join('')}`;
+  },
+  homeworks(){
+    const r = currentUser.role;
+    let formHtml = '';
+    if(['teacher','admin','super_admin'].includes(r)){
+      formHtml = `<div class="card"><h3>Yeni tapşırıq</h3>
+        <input id="hwTitle" placeholder="Başlıq" />
+        <textarea id="hwDesc" placeholder="Təsvir"></textarea>
+        <select id="hwDiff"><option value="asan">Asan</option><option value="orta" selected>Orta</option><option value="cetin">Çətin</option></select>
+        <button class="btn" onclick="addHomework()">Əlavə et</button></div>`;
+    }
+    return `<h1>📝 Ev Tapşırıqları</h1>${formHtml}
+    ${db.homeworks.length===0?'<p>Hələ tapşırıq yoxdur.</p>':db.homeworks.map(h=>{
+      const colors={asan:'#4CAF50',orta:'#FFC107',cetin:'#f44336'};
+      return `<div class="card"><strong>${h.title}</strong><p>${h.desc}</p><span class="badge" style="background:${colors[h.diff]}">${h.diff}</span></div>`;
+    }).join('')}`;
+  },
+  announcements(){
+    const r = currentUser.role;
+    let formHtml='';
+    if(['teacher','admin','super_admin'].includes(r)){
+      formHtml = `<div class="card"><h3>Yeni elan</h3>
+        <input id="annTitle" placeholder="Başlıq" />
+        <textarea id="annMsg" placeholder="Mətn"></textarea>
+        <button class="btn" onclick="addAnnouncement()">Paylaş</button></div>`;
+    }
+    return `<h1>📢 Elanlar</h1>${formHtml}
+    ${db.announcements.map(a=>`<div class="card"><strong>${a.title}</strong><p>${a.message}</p></div>`).join('')}`;
+  },
+  progress(){
+    const me = db.students.find(s=>s.userId===currentUser.id) || {firstName:currentUser.firstName,lastName:currentUser.lastName,level:'A1',totalStars:0,rank:'Tələbə'};
+    return `<h1>📊 Tərəqqi</h1>
+    <div class="card"><h3>${me.firstName} ${me.lastName}</h3>
+    <p>Səviyyə: ${me.level} | Ulduzlar: ⭐ ${me.totalStars} | Rütbə: ${me.rank}</p></div>`;
+  },
+  about(){
+    return `<h1>🏛️ Haqqımızda</h1>
+    <div class="card"><h3>AN Psixoloji Dəstək və Reabilitasiya Mərkəzi</h3>
+    <p style="margin-top:8px">7-12 yaş arası uşaqlar üçün rus dili hazırlıq proqramı, həftədə 3 dərs.</p></div>`;
+  },
+  contact(){
+    return `<h1>📞 Əlaqə</h1>
+    <div class="card"><p><strong>Telefon:</strong> +994 XX XXX XX XX</p><p><strong>İş saatları:</strong> B.e-Cümə, 09:00-18:00</p></div>`;
+  },
+  admin(){
+    return `<h1>🛠️ Admin Paneli</h1>
+    <div class="card"><h3>Yeni istifadəçi əlavə et</h3>
+      <input id="newUsername" placeholder="İstifadəçi adı" />
+      <input id="newFirst" placeholder="Ad" />
+      <input id="newLast" placeholder="Soyad" />
+      <select id="newRole"><option value="student">Şagird</option><option value="teacher">Müəllim</option><option value="parent">Valideyn</option><option value="admin">Admin</option></select>
+      <button class="btn" onclick="createUser()">Yarat</button>
+      <div id="createdInfo"></div>
+    </div>
+    <div class="card"><h3>İstifadəçilər</h3>
+    <table><thead><tr><th>Ad</th><th>Login</th><th>Rol</th><th></th></tr></thead><tbody>
+    ${db.users.map(u=>`<tr><td>${u.firstName||''} ${u.lastName||''}</td><td>${u.username}</td><td>${roleLabel(u.role)}</td><td>${u.role!=='super_admin'?`<button class="btn danger" onclick="deleteUser('${u.id}')">Sil</button>`:''}</td></tr>`).join('')}
+    </tbody></table></div>`;
+  }
+};
+
+function genId(){ return Math.random().toString(36).slice(2,10); }
+function genPass(){ return Math.random().toString(36).slice(2,10); }
+
+function createUser(){
+  const username = document.getElementById('newUsername').value.trim();
+  const firstName = document.getElementById('newFirst').value.trim();
+  const lastName = document.getElementById('newLast').value.trim();
+  const role = document.getElementById('newRole').value;
+  if(!username||!firstName) return;
+  if(db.users.find(u=>u.username===username)){ alert('Bu istifadəçi adı mövcuddur'); return; }
+  const password = genPass();
+  const id = genId();
+  db.users.push({id, username, password, role, firstName, lastName});
+  if(role==='student') db.students.push({id:genId(), userId:id, firstName, lastName, level:'A1', totalStars:0, rank:'Tələbə'});
+  saveDB(db);
+  document.getElementById('createdInfo').innerHTML = `<div class="card" style="background:#FFF3CD;margin-top:10px">✅ Yaradıldı! Login: <strong>${username}</strong> Şifrə: <strong>${password}</strong></div>`;
+  render();
+}
+function deleteUser(id){
+  if(!confirm('Silmək istədiyinizə əminsiniz?')) return;
+  db.users = db.users.filter(u=>u.id!==id);
+  saveDB(db);
+  render();
+}
+function addHomework(){
+  const title = document.getElementById('hwTitle').value.trim();
+  const desc = document.getElementById('hwDesc').value.trim();
+  const diff = document.getElementById('hwDiff').value;
+  if(!title) return;
+  db.homeworks.push({id:genId(), title, desc, diff});
+  saveDB(db); render();
+}
+function addAnnouncement(){
+  const title = document.getElementById('annTitle').value.trim();
+  const message = document.getElementById('annMsg').value.trim();
+  if(!title) return;
+  db.announcements.unshift({id:genId(), title, message});
+  saveDB(db); render();
+}
+
+// ---------- INIT ----------
+if(currentUser){ showApp(); }
+</script>
 </body>
 </html>
