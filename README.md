@@ -60,5 +60,22 @@ npm run dev
 | GET/POST | /api/homeworks | Ev tapşırıqları |
 | GET/POST | /api/announcements | Elanlar |
 
----
-By **s_akhundoff**
+## 🚀 Tam İşlək Sayt üçün Deploy (Pulsuz)
+
+Frontend artıq GitHub Pages-də: https://samir210-az.github.io/an-rus-dili-platform/
+
+Backend + Verilənlər bazasını işə salmaq üçün:
+
+1. https://render.com saytında **pulsuz hesab** yarat (GitHub ilə daxil ol)
+2. Dashboard-da **"New" → "Blueprint"** seç
+3. Bu repo-nu seç: `Samir210-az/an-rus-dili-platform` (kök qovluqdakı `render.yaml` avtomatik tanınacaq)
+4. "Apply" düyməsinə bas — Render avtomatik olaraq backend + PostgreSQL yaradacaq (5-10 dəqiqə çəkir)
+5. Backend URL-i alacaqsan (məs: `https://an-rus-dili-backend.onrender.com`)
+6. Mənə bu URL-i göndər — frontend-i bu URL-ə qoşub yenidən deploy edəcəm
+
+İlk Super Admin avtomatik yaranır: **admin / admin123** (ilk girişdə şifrəni dəyişin!)
+
+> Qeyd: Render-in pulsuz planı 15 dəqiqə fəaliyyətsizlikdən sonra "yuxuya" keçir, ilk sorğu 30-60 saniyə çəkə bilər.
+
+
+By s_akhundoff

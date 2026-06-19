@@ -22,7 +22,10 @@ const { startReminderJobs } = require('./utils/cronJobs');
 const app = express();
 
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL || '*',
+  credentials: true,
+}));
 app.use(express.json());
 app.use(morgan('dev'));
 
@@ -44,9 +47,23 @@ app.get('/api/health', (req, res) => res.json({ status: 'OK', project: 'AN Rus D
 
 const PORT = process.env.PORT || 5000;
 
-sequelize.sync().then(() => {
+sequelize.sync().then(async () => {
   app.listen(PORT, () => console.log(`🚀 Server ${PORT} portunda işləyir`));
   startReminderJobs();
+
+  if (process.env.SEED_ON_START === 'true') {
+    const bcrypt = require('bcryptjs');
+    const User = require('./models/User');
+    const existing = await User.findOne({ where: { username: 'admin' } });
+    if (!existing) {
+      const hashed = await bcrypt.hash('admin123', 10);
+      await User.create({
+        username: 'admin', password: hashed, role: 'super_admin',
+        firstName: 'Super', lastName: 'Admin', mustChangePassword: true,
+      });
+      console.log('✅ Super Admin yaradıldı -> admin / admin123');
+    }
+  }
 }).catch(err => console.error('DB qoşulma xətası:', err));
 
 module.exports = app;
