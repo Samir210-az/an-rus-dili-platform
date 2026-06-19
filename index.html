@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rus Dili Tədris Proqramı — AN Psixoloji Dəstək və Reabilitasiya Mərkəzi</title>
+<link rel="icon" href="assets/icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bordo:#6A0000;--bordo-bright:#B00001;--bordo-deep:#3A0000;--bordo-mid:#8B0000;
+  --gold:#D2A55D;--gold-light:#E6C07A;--gold-dark:#94713A;--gold-glow:rgba(210,165,93,0.35);
+  --teal:#2A9D8F;--teal-light:#3bbdad;
+  --bg:#FFFBF8;--card:#FEF3E8;--text:#3A2A20;--muted:#7A6A60;
+  --white:#fff;--line:#f1e4d8;
+  --shadow:0 8px 32px rgba(106,0,0,0.12);
+  --shadow-gold:0 8px 32px rgba(210,165,93,0.2);
+  --radius:20px;--radius-sm:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.6}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+h1,h2,h3{font-family:'Playfair Display',serif}
+button{cursor:pointer;font-family:'Inter',sans-serif;border:none}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:100;background:var(--bordo);color:#fff;box-shadow:var(--shadow)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;max-width:1100px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
+.brand img{width:42px;height:42px;border-radius:10px;background:#fff;object-fit:contain;padding:3px}
+.nav-links{display:none;gap:22px}
+.nav-links a{font-size:14px;font-weight:500;color:rgba(255,255,255,.85)}
+.nav-links a:hover{color:var(--gold-light)}
+.login-btn{background:var(--gold);color:var(--bordo-deep);padding:9px 18px;border-radius:30px;font-weight:700;font-size:13px}
+@media(min-width:760px){.nav-links{display:flex}}
+.burger{background:none;color:#fff;font-size:22px;display:block}
+@media(min-width:760px){.burger{display:none}}
+.mobile-menu{display:none;flex-direction:column;background:var(--bordo-deep);padding:10px 20px}
+.mobile-menu.open{display:flex}
+.mobile-menu a{color:#fff;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--bordo-deep),var(--bordo),var(--bordo-mid));color:#fff;padding:60px 20px 80px;text-align:center;position:relative;overflow:hidden}
+.hero h1{font-size:clamp(28px,5vw,44px);margin-bottom:14px}
+.hero p{font-size:16px;color:rgba(255,255,255,.85);max-width:600px;margin:0 auto 28px}
+.hero .badge{display:inline-block;background:rgba(255,255,255,.12);border:1px solid var(--gold-light);color:var(--gold-light);padding:6px 16px;border-radius:30px;font-size:13px;margin-bottom:18px;font-weight:600}
+.cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn{padding:13px 28px;border-radius:30px;font-weight:700;font-size:14px;transition:.25s}
+.btn-gold{background:var(--gold);color:var(--bordo-deep)}
+.btn-gold:hover{background:var(--gold-light);transform:translateY(-2px)}
+.btn-outline{background:transparent;border:2px solid rgba(255,255,255,.5);color:#fff}
+.btn-outline:hover{border-color:var(--gold-light);color:var(--gold-light)}
+.float-emoji{position:absolute;font-size:26px;opacity:.5;animation:float-particle 9s linear infinite}
+@keyframes float-particle{0%{transform:translateY(110%) rotate(0deg);opacity:0}10%{opacity:.6}90%{opacity:.6}100%{transform:translateY(-110%) rotate(360deg);opacity:0}}
+
+/* SECTIONS */
+section{padding:60px 20px}
+.section-title{text-align:center;margin-bottom:8px;font-size:clamp(24px,4vw,32px);color:var(--bordo)}
+.section-sub{text-align:center;color:var(--muted);margin-bottom:36px;font-size:15px}
+
+/* WEEKLY PLAN */
+.plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;max-width:900px;margin:0 auto}
+.plan-card{background:var(--card);border-radius:var(--radius);padding:26px;text-align:center;box-shadow:var(--shadow-gold);border:1px solid var(--line)}
+.plan-card .day{font-family:'Playfair Display',serif;font-size:22px;color:var(--bordo);margin-bottom:6px}
+.plan-card .time{color:var(--gold-dark);font-weight:700;font-size:14px;margin-bottom:10px}
+.plan-card p{font-size:13px;color:var(--muted)}
+
+/* LESSONS */
+.lesson-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:28px;border:1px solid var(--line)}
+.lesson-head{display:flex;align-items:center;gap:18px;padding:24px;flex-wrap:wrap}
+.lesson-illustration{width:110px;height:110px;border-radius:18px;background:linear-gradient(135deg,var(--gold-light),var(--gold));display:flex;align-items:center;justify-content:center;font-size:52px;flex-shrink:0;animation:bounce 3s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-8px) rotate(3deg)}}
+.lesson-head h3{color:var(--bordo);font-size:21px;margin-bottom:6px}
+.lesson-head .meta{color:var(--gold-dark);font-size:13px;font-weight:600}
+.lesson-body{padding:0 24px 24px}
+.lesson-body p{color:var(--text);font-size:14.5px;margin-bottom:10px}
+.word-chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.chip{background:var(--card);border:1px solid var(--gold-light);color:var(--bordo);padding:8px 14px;border-radius:20px;font-size:13px;font-weight:600;transition:.2s}
+.chip:hover{background:var(--gold);color:#fff;transform:scale(1.05)}
+.hw-box{background:var(--card);border-left:4px solid var(--bordo);border-radius:12px;padding:18px;margin-top:16px}
+.hw-box h4{color:var(--bordo);margin-bottom:8px;font-size:15px}
+.hw-box ol{margin:10px 0 14px 20px;font-size:14px;color:var(--text)}
+.hw-box li{margin-bottom:6px}
+.download-btn{background:var(--teal);color:#fff;padding:10px 20px;border-radius:30px;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:8px}
+.download-btn:hover{background:var(--teal-light)}
+
+/* LOGIN MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(58,0,0,.55);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:var(--radius);padding:30px;max-width:400px;width:100%;max-height:90vh;overflow-y:auto;position:relative}
+.modal h3{color:var(--bordo);margin-bottom:18px;text-align:center}
+.modal .close{position:absolute;top:14px;right:18px;font-size:20px;color:var(--muted);background:none}
+.role-tabs{display:flex;gap:8px;margin-bottom:18px}
+.role-tab{flex:1;padding:9px;text-align:center;border-radius:10px;background:var(--card);font-size:12px;font-weight:700;color:var(--muted);border:1px solid var(--line)}
+.role-tab.active{background:var(--bordo);color:#fff;border-color:var(--bordo)}
+.field{margin-bottom:14px}
+.field label{font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;font-size:14px;font-family:inherit;background:var(--bg)}
+.field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--gold)}
+.submit-btn{width:100%;background:var(--bordo);color:#fff;padding:13px;border-radius:30px;font-weight:700;font-size:14px;margin-top:6px}
+.submit-btn:hover{background:var(--bordo-bright)}
+.hint{font-size:11px;color:var(--muted);text-align:center;margin-top:10px}
+
+/* DASHBOARD */
+.dash{display:none;background:var(--bg);min-height:100vh}
+.dash.open{display:block}
+.dash-header{background:var(--bordo);color:#fff;padding:18px 20px;display:flex;justify-content:space-between;align-items:center}
+.dash-header .who{font-weight:700}
+.logout-btn{background:var(--gold);color:var(--bordo-deep);padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700}
+.dash-body{padding:30px 20px;max-width:1000px;margin:0 auto}
+.card{background:#fff;border-radius:16px;padding:22px;box-shadow:var(--shadow);margin-bottom:22px;border:1px solid var(--line)}
+.card h3{color:var(--bordo);margin-bottom:16px;font-size:18px}
+.form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:12px}
+.list-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px;flex-wrap:wrap;gap:8px}
+.tag{background:var(--card);color:var(--bordo);padding:4px 10px;border-radius:8px;font-size:12px;font-weight:700}
+.small-btn{background:var(--teal);color:#fff;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700}
+.small-btn.danger{background:var(--bordo-bright)}
+.empty{color:var(--muted);font-size:13px;text-align:center;padding:20px}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;max-width:800px;margin:0 auto}
+.contact-card{background:var(--card);border-radius:var(--radius);padding:26px;text-align:center;border:1px solid var(--line)}
+.contact-card .ic{font-size:30px;margin-bottom:10px}
+.contact-card h4{color:var(--bordo);margin-bottom:6px;font-size:15px}
+.contact-card p,.contact-card a{color:var(--muted);font-size:14px}
+
+/* FOOTER */
+footer{background:var(--bordo-deep);color:rgba(255,255,255,.75);text-align:center;padding:36px 20px;font-size:13px}
+footer .ig{color:var(--gold-light);font-weight:700}
+footer .top{margin-bottom:10px;display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+footer .top a{color:rgba(255,255,255,.85)}
+
+@media(max-width:600px){.lesson-head{flex-direction:column;text-align:center}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="brand"><img src="assets/logo.png" alt="logo"><span>Rus Dili Tədris</span></div>
+    <nav class="nav-links">
+      <a href="#plan">Dərs Cədvəli</a>
+      <a href="#lessons">Məşğələlər</a>
+      <a href="#contact">Əlaqə</a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="login-btn" onclick="openLogin()">Giriş</button>
+      <button class="burger" onclick="document.getElementById('mmenu').classList.toggle('open')">☰</button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mmenu">
+    <a href="#plan">Dərs Cədvəli</a>
+    <a href="#lessons">Məşğələlər</a>
+    <a href="#contact">Əlaqə</a>
+  </div>
+</header>
+
+<div id="mainsite">
+<section class="hero">
+  <span class="float-emoji" style="left:8%;animation-delay:0s">📚</span>
+  <span class="float-emoji" style="left:25%;animation-delay:2s">✏️</span>
+  <span class="float-emoji" style="left:50%;animation-delay:4s">🇷🇺</span>
+  <span class="float-emoji" style="left:70%;animation-delay:1s">⭐</span>
+  <span class="float-emoji" style="left:88%;animation-delay:3s">🎈</span>
+  <div class="badge">7–12 yaş üçün</div>
+  <h1>Uşaqlar üçün Rus Dili Tədris Proqramı</h1>
+  <p>AN Psixoloji Dəstək və Reabilitasiya Mərkəzinin dəstəyi ilə, oyun və əyləncəli üsullarla rus dilini öyrənək!</p>
+  <div class="cta-row">
+    <a href="#plan" class="btn btn-gold">Dərs Cədvəlinə Bax</a>
+    <a href="#lessons" class="btn btn-outline">Məşğələləri Gör</a>
+  </div>
+</section>
+
+<section id="plan">
+  <h2 class="section-title">Həftəlik Tədris Planı</h2>
+  <p class="section-sub">Həftədə 3 gün, hər dərs 1 saat</p>
+  <div class="plan-grid">
+    <div class="plan-card"><div class="day">Bazar ertəsi</div><div class="time">16:00 – 17:00</div><p>Əlifba, tələffüz və yeni sözlər</p></div>
+    <div class="plan-card"><div class="day">Çərşənbə</div><div class="time">16:00 – 17:00</div><p>Qrammatika, dialoq və oyunlar</p></div>
+    <div class="plan-card"><div class="day">Cümə</div><div class="time">16:00 – 17:00</div><p>Təkrar, mahnılar və tətbiq</p></div>
+  </div>
+</section>
+
+<section id="lessons" style="background:var(--card)">
+  <h2 class="section-title">Məşğələlər</h2>
+  <p class="section-sub">Hər dərs şəkilli izah və ev tapşırığı ilə</p>
+  <div class="wrap" id="lessonsContainer"></div>
+</section>
+
+<section id="contact">
+  <h2 class="section-title">Əlaqə</h2>
+  <p class="section-sub">AN Psixoloji Dəstək və Reabilitasiya Mərkəzi</p>
+  <div class="contact-grid">
+    <div class="contact-card"><div class="ic">📞</div><h4>Telefon</h4><a href="tel:+994554157215">+994 55 415 72 15</a></div>
+    <div class="contact-card"><div class="ic">📷</div><h4>Instagram</h4><a href="https://instagram.com/an_psixologiyamerkezi" target="_blank">@an_psixologiyamerkezi</a></div>
+    <div class="contact-card"><div class="ic">📍</div><h4>Mərkəz</h4><p>AN Psixoloji Dəstək və Reabilitasiya Mərkəzi</p></div>
+  </div>
+</section>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="loginOverlay">
+  <div class="modal">
+    <button class="close" onclick="closeLogin()">✕</button>
+    <h3>Hesaba Giriş</h3>
+    <div class="role-tabs">
+      <div class="role-tab active" data-role="admin" onclick="selectRole('admin')">Admin</div>
+      <div class="role-tab" data-role="teacher" onclick="selectRole('teacher')">Müəllim</div>
+      <div class="role-tab" data-role="student" onclick="selectRole('student')">Şagird</div>
+    </div>
+    <div class="field"><label>İstifadəçi adı</label><input id="loginUser" type="text"></div>
+    <div class="field"><label>Şifrə</label><input id="loginPass" type="password"></div>
+    <button class="submit-btn" onclick="doLogin()">Daxil ol</button>
+    <p class="hint">Admin: admin / admin2026 (ilk girişdən sonra şifrəni dəyiş)</p>
+  </div>
+</div>
+
+<!-- ADMIN DASHBOARD -->
+<div class="dash" id="adminDash">
+  <div class="dash-header"><div class="who">👑 Admin Paneli</div><button class="logout-btn" onclick="logout()">Çıxış</button></div>
+  <div class="dash-body">
+    <div class="card">
+      <h3>➕ Müəllim əlavə et</h3>
+      <div class="form-row">
+        <input id="newTeacherName" placeholder="Ad, Soyad">
+        <input id="newTeacherUser" placeholder="İstifadəçi adı">
+        <input id="newTeacherPass" placeholder="Şifrə">
+      </div>
+      <button class="small-btn" onclick="addTeacher()">Əlavə et</button>
+      <div id="teacherList" style="margin-top:14px"></div>
+    </div>
+    <div class="card">
+      <h3>➕ Şagird əlavə et</h3>
+      <div class="form-row">
+        <input id="newStudentName" placeholder="Ad, Soyad">
+        <input id="newStudentUser" placeholder="İstifadəçi adı">
+        <input id="newStudentPass" placeholder="Şifrə">
+        <input id="newStudentParent" placeholder="Valideyn telefonu">
+      </div>
+      <button class="small-btn" onclick="addStudent()">Əlavə et</button>
+      <div id="studentListAdmin" style="margin-top:14px"></div>
+    </div>
+    <div class="card">
+      <h3>📢 Elan yerləşdir</h3>
+      <div class="field"><textarea id="announceText" rows="3" placeholder="Elan mətni..."></textarea></div>
+      <button class="small-btn" onclick="addAnnouncement()">Yerləşdir</button>
+      <div id="announceListAdmin" style="margin-top:14px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TEACHER DASHBOARD -->
+<div class="dash" id="teacherDash">
+  <div class="dash-header"><div class="who">👩‍🏫 Müəllim Paneli — <span id="teacherNameShow"></span></div><button class="logout-btn" onclick="logout()">Çıxış</button></div>
+  <div class="dash-body">
+    <div class="card">
+      <h3>📝 Şagirdə qiymət / davranış qeydi əlavə et</h3>
+      <div class="form-row">
+        <select id="tStudentSelect"></select>
+        <input id="tGrade" placeholder="Qiymət (1-100)" type="number" min="1" max="100">
+      </div>
+      <div class="field"><textarea id="tNote" rows="2" placeholder="Davranış haqqında qeyd..."></textarea></div>
+      <button class="small-btn" onclick="addTeacherNote()">Yadda saxla</button>
+    </div>
+    <div class="card">
+      <h3>📋 Bütün qeydlər</h3>
+      <div id="teacherNotesList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- STUDENT DASHBOARD -->
+<div class="dash" id="studentDash">
+  <div class="dash-header"><div class="who">🎓 Şagird Paneli — <span id="studentNameShow"></span></div><button class="logout-btn" onclick="logout()">Çıxış</button></div>
+  <div class="dash-body">
+    <div class="card">
+      <h3>✅ Dərsdə iştirakımı qeyd et</h3>
+      <div class="form-row">
+        <select id="sLessonSelect"></select>
+      </div>
+      <button class="small-btn" onclick="registerAttendance()">İştirak etdim</button>
+      <div id="attendanceListStudent" style="margin-top:14px"></div>
+    </div>
+    <div class="card">
+      <h3>🏆 Qiymətlərim və qeydlərim</h3>
+      <div id="studentGradesList"></div>
+    </div>
+    <div class="card">
+      <h3>📢 Elanlar</h3>
+      <div id="announceListStudent"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="top">
+    <a href="tel:+994554157215">📞 +994 55 415 72 15</a>
+    <a href="https://instagram.com/an_psixologiyamerkezi" target="_blank">📷 AN Mərkəzi</a>
+  </div>
+  <div>© 2026 AN Psixoloji Dəstək və Reabilitasiya Mərkəzi — Rus Dili Tədris Proqramı</div>
+  <div style="margin-top:6px">By s_akhundoff · <a class="ig" href="https://instagram.com/s_akhundoff" target="_blank">@s_akhundoff</a></div>
+</footer>
+
+<script>
+/* ---------- DATA: LESSONS ---------- */
+const LESSONS = [
+  {
+    id:'l1', emoji:'🔤', title:'Dərs 1: Rus əlifbası ilə tanışlıq', meta:'Mövzu: Əlifba və səslər',
+    desc:'Bu dərsdə uşaqlar rus əlifbasının ilk hərfləri ilə tanış olacaq: А, Б, В, Г, Д. Hər hərf üçün rəngli kartlar, səs təqlidi və əyləncəli mahnı istifadə olunur. Uşaqlar hərfləri tələffüz edərək yazmağı öyrənirlər.',
+    words:['А — Аист (Leylək)','Б — Бабочка (Kəpənək)','В — Волк (Qurd)','Г — Гриб (Göbələk)','Д — Дом (Ev)'],
+    hw:['Dəftərinizə А, Б, В, Г, Д hərflərini 5 dəfə yazın.','Hər hərflə başlayan bir əşyanın şəklini çəkin.','Valideyninizlə birlikdə bu hərfləri səsli oxuyun.']
+  },
+  {
+    id:'l2', emoji:'👋', title:'Dərs 2: Salamlaşma və tanışlıq', meta:'Mövzu: Salamlaşma ifadələri',
+    desc:'Uşaqlar gündəlik salamlaşma sözlərini öyrənirlər: salam, sağ ol, necəsən. Rollu oyunlar vasitəsilə uşaqlar bir-biri ilə rusca dialoq qururlar.',
+    words:['Привет — Salam','Здравствуйте — Salam (hörmətlə)','Как дела? — Necəsən?','Спасибо — Sağ ol','До свидания — Sağol (ayrılarkən)'],
+    hw:['"Привет, как дела?" cümləsini 3 dəfə yazın.','Ailə üzvlərinizdən biri ilə rusca salamlaşma məşqi edin.','Aşağıdakı sözləri əzbərləyin: Привет, Спасибо, До свидания.']
+  },
+  {
+    id:'l3', emoji:'👨‍👩‍👧‍👦', title:'Dərs 3: Ailə üzvləri', meta:'Mövzu: Ailə sözləri',
+    desc:'Bu dərsdə uşaqlar ailə üzvlərinin adlarını öyrənir: ana, ata, bacı, qardaş. Şəkilli kartlar və ailə ağacı tapşırığı ilə möhkəmləndirmə aparılır.',
+    words:['Мама — Ana','Папа — Ata','Брат — Qardaş','Сестра — Bacı','Бабушка — Nənə','Дедушка — Baba'],
+    hw:['Öz ailənizin şəklini çəkin və hər üzvün altına rusca adını yazın.','"Это моя мама" (Bu mənim anamdır) cümləsini yazın.','Ailə üzvlərinin adlarını 3 dəfə təkrarlayaraq əzbərləyin.']
+  },
+  {
+    id:'l4', emoji:'🐾', title:'Dərs 4: Heyvanlar', meta:'Mövzu: Heyvan adları',
+    desc:'Uşaqlar ev və vəhşi heyvanların adlarını öyrənir, heyvan səslərini təqlid edərək sözləri əzbərləyirlər. Dərs animasiyalı kartlarla müşayiət olunur.',
+    words:['Кошка — Pişik','Собака — İt','Лошадь — At','Медведь — Ayı','Заяц — Dovşan'],
+    hw:['5 heyvan adını rus dilində yazın və şəklini çəkin.','Sevdiyiniz heyvanı rusca təsvir edən 1 cümlə qurun.','Heyvan səslərini təqlid edərək sözləri ucadan deyin.']
+  },
+  {
+    id:'l5', emoji:'🎨', title:'Dərs 5: Rənglər və rəqəmlər', meta:'Mövzu: Rənglər, 1–10 rəqəmləri',
+    desc:'Uşaqlar əsas rəngləri və 1-dən 10-a qədər rəqəmləri öyrənirlər. Rəngli oyuncaqlarla say-say oyunu və rəngləmə vərəqləri istifadə olunur.',
+    words:['Красный — Qırmızı','Синий — Göy','Жёлтый — Sarı','Один, Два, Три... — Bir, İki, Üç...'],
+    hw:['1-dən 10-a qədər rəqəmləri rus dilində yazın.','5 əşyanın rəngini rusca yazın.','Otağınızdakı əşyaları sayaraq rusca deyin.']
+  },
+  {
+    id:'l6', emoji:'🎵', title:'Dərs 6: Mahnı və təkrar', meta:'Mövzu: Ümumiləşdirmə',
+    desc:'Bu dərsdə öyrənilən bütün mövzular əyləncəli mahnı və oyunlarla təkrarlanır. Uşaqlar qruplara bölünərək kiçik tamaşa hazırlayırlar.',
+    words:['Təkrar: salamlaşma','Təkrar: ailə','Təkrar: heyvanlar','Təkrar: rənglər və rəqəmlər'],
+    hw:['Öyrəndiyiniz 10 rus sözünü dəftərinizə yazın.','Sevdiyiniz mövzuda 2 cümlə qurun.','Valideyninizə bu dərsdə öyrəndiklərinizi danışın.']
+  }
+];
+
+function renderLessons(){
+  const c=document.getElementById('lessonsContainer');
+  c.innerHTML=LESSONS.map(l=>`
+    <div class="lesson-card">
+      <div class="lesson-head">
+        <div class="lesson-illustration">${l.emoji}</div>
+        <div><h3>${l.title}</h3><div class="meta">${l.meta}</div></div>
+      </div>
+      <div class="lesson-body">
+        <p>${l.desc}</p>
+        <div class="word-chips">${l.words.map(w=>`<div class="chip">${w}</div>`).join('')}</div>
+        <div class="hw-box">
+          <h4>📝 Ev tapşırığı</h4>
+          <ol>${l.hw.map(h=>`<li>${h}</li>`).join('')}</ol>
+          <button class="download-btn" onclick="downloadHomework('${l.id}')">⬇ HTML kimi yadda saxla</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+renderLessons();
+
+function downloadHomework(id){
+  const l=LESSONS.find(x=>x.id===id);
+  const html=`<!DOCTYPE html><html lang="az"><head><meta charset="UTF-8"><title>Ev tapşırığı — ${l.title}</title>
+  <style>body{font-family:Arial,sans-serif;background:#FFFBF8;color:#3A2A20;padding:30px;max-width:650px;margin:0 auto}
+  h1{color:#6A0000}.meta{color:#94713A;font-weight:bold;margin-bottom:16px}
+  ol{margin-left:20px}li{margin-bottom:10px}
+  .box{background:#FEF3E8;border-left:4px solid #6A0000;padding:18px;border-radius:10px;margin-top:20px}
+  footer{margin-top:30px;font-size:12px;color:#7A6A60;text-align:center}</style></head>
+  <body><h1>${l.emoji} ${l.title}</h1><div class="meta">${l.meta}</div>
+  <p>${l.desc}</p>
+  <div class="box"><h3>📝 Ev tapşırığı</h3><ol>${l.hw.map(h=>`<li>${h}</li>`).join('')}</ol></div>
+  <footer>AN Psixoloji Dəstək və Reabilitasiya Mərkəzi — Rus Dili Tədris Proqramı<br>By s_akhundoff</footer>
+  </body></html>`;
+  const blob=new Blob([html],{type:'text/html'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`ev-tapsirigi-${id}.html`;
+  document.body.appendChild(a);a.click();a.remove();
+}
+
+/* ---------- DATA STORE (localStorage) ---------- */
+function db(){
+  let d=JSON.parse(localStorage.getItem('rd_db')||'null');
+  if(!d){
+    d={
+      teachers:[],
+      students:[],
+      announcements:[],
+      notes:[],      // {studentUser, grade, note, teacher, date}
+      attendance:[]  // {studentUser, lessonId, date}
+    };
+    localStorage.setItem('rd_db',JSON.stringify(d));
+  }
+  return d;
+}
+function saveDb(d){localStorage.setItem('rd_db',JSON.stringify(d));}
+
+const ADMIN_USER='admin', ADMIN_DEFAULT_PASS='admin2026';
+
+let selectedRole='admin';
+function selectRole(r){
+  selectedRole=r;
+  document.querySelectorAll('.role-tab').forEach(t=>t.classList.toggle('active',t.dataset.role===r));
+}
+function openLogin(){document.getElementById('loginOverlay').classList.add('open');}
+function closeLogin(){document.getElementById('loginOverlay').classList.remove('open');}
+
+function doLogin(){
+  const u=document.getElementById('loginUser').value.trim();
+  const p=document.getElementById('loginPass').value.trim();
+  const d=db();
+  if(selectedRole==='admin'){
+    let adminPass=localStorage.getItem('rd_admin_pass')||ADMIN_DEFAULT_PASS;
+    if(u===ADMIN_USER && p===adminPass){ showDash('admin',{name:'Admin'}); closeLogin(); return; }
+  } else if(selectedRole==='teacher'){
+    const t=d.teachers.find(x=>x.user===u && x.pass===p);
+    if(t){ showDash('teacher',t); closeLogin(); return; }
+  } else if(selectedRole==='student'){
+    const s=d.students.find(x=>x.user===u && x.pass===p);
+    if(s){ showDash('student',s); closeLogin(); return; }
+  }
+  alert('İstifadəçi adı və ya şifrə yanlışdır.');
+}
+
+function logout(){
+  document.querySelectorAll('.dash').forEach(x=>x.classList.remove('open'));
+  document.getElementById('mainsite').style.display='block';
+  document.querySelector('header').style.display='block';
+}
+
+function showDash(role,user){
+  document.getElementById('mainsite').style.display='none';
+  document.querySelector('header').style.display='none';
+  document.querySelectorAll('.dash').forEach(x=>x.classList.remove('open'));
+  if(role==='admin'){ document.getElementById('adminDash').classList.add('open'); renderAdmin(); }
+  if(role==='teacher'){ document.getElementById('teacherDash').classList.add('open'); document.getElementById('teacherNameShow').textContent=user.name; window._curTeacher=user; renderTeacher(); }
+  if(role==='student'){ document.getElementById('studentDash').classList.add('open'); document.getElementById('studentNameShow').textContent=user.name; window._curStudent=user; renderStudent(); }
+}
+
+/* ---- ADMIN ---- */
+function addTeacher(){
+  const name=document.getElementById('newTeacherName').value.trim();
+  const user=document.getElementById('newTeacherUser').value.trim();
+  const pass=document.getElementById('newTeacherPass').value.trim();
+  if(!name||!user||!pass) return alert('Bütün xanaları doldurun');
+  const d=db(); d.teachers.push({name,user,pass}); saveDb(d);
+  document.getElementById('newTeacherName').value='';document.getElementById('newTeacherUser').value='';document.getElementById('newTeacherPass').value='';
+  renderAdmin();
+}
+function addStudent(){
+  const name=document.getElementById('newStudentName').value.trim();
+  const user=document.getElementById('newStudentUser').value.trim();
+  const pass=document.getElementById('newStudentPass').value.trim();
+  const parent=document.getElementById('newStudentParent').value.trim();
+  if(!name||!user||!pass) return alert('Bütün xanaları doldurun');
+  const d=db(); d.students.push({name,user,pass,parent}); saveDb(d);
+  document.getElementById('newStudentName').value='';document.getElementById('newStudentUser').value='';document.getElementById('newStudentPass').value='';document.getElementById('newStudentParent').value='';
+  renderAdmin();
+}
+function addAnnouncement(){
+  const text=document.getElementById('announceText').value.trim();
+  if(!text) return;
+  const d=db(); d.announcements.unshift({text,date:new Date().toLocaleDateString('az-AZ')}); saveDb(d);
+  document.getElementById('announceText').value='';
+  renderAdmin();
+}
+function removeTeacher(user){ const d=db(); d.teachers=d.teachers.filter(t=>t.user!==user); saveDb(d); renderAdmin(); }
+function removeStudent(user){ const d=db(); d.students=d.students.filter(s=>s.user!==user); saveDb(d); renderAdmin(); }
+
+function renderAdmin(){
+  const d=db();
+  document.getElementById('teacherList').innerHTML = d.teachers.length? d.teachers.map(t=>`
+    <div class="list-item"><span><span class="tag">Müəllim</span> ${t.name} (${t.user})</span><button class="small-btn danger" onclick="removeTeacher('${t.user}')">Sil</button></div>
+  `).join('') : '<div class="empty">Hələ müəllim yoxdur</div>';
+
+  document.getElementById('studentListAdmin').innerHTML = d.students.length? d.students.map(s=>`
+    <div class="list-item"><span><span class="tag">Şagird</span> ${s.name} (${s.user}) — ${s.parent||'—'}</span><button class="small-btn danger" onclick="removeStudent('${s.user}')">Sil</button></div>
+  `).join('') : '<div class="empty">Hələ şagird yoxdur</div>';
+
+  document.getElementById('announceListAdmin').innerHTML = d.announcements.length? d.announcements.map(a=>`
+    <div class="list-item"><span>${a.text}</span><span class="tag">${a.date}</span></div>
+  `).join('') : '<div class="empty">Elan yoxdur</div>';
+}
+
+/* ---- TEACHER ---- */
+function renderTeacher(){
+  const d=db();
+  const sel=document.getElementById('tStudentSelect');
+  sel.innerHTML = d.students.map(s=>`<option value="${s.user}">${s.name}</option>`).join('') || '<option>Şagird yoxdur</option>';
+  document.getElementById('teacherNotesList').innerHTML = d.notes.length? d.notes.map(n=>{
+    const st=d.students.find(s=>s.user===n.studentUser);
+    return `<div class="list-item"><span>${st?st.name:n.studentUser}: <b>${n.grade||'-'}</b> — ${n.note||''}</span><span class="tag">${n.date}</span></div>`;
+  }).join('') : '<div class="empty">Qeyd yoxdur</div>';
+}
+function addTeacherNote(){
+  const studentUser=document.getElementById('tStudentSelect').value;
+  const grade=document.getElementById('tGrade').value;
+  const note=document.getElementById('tNote').value.trim();
+  if(!studentUser) return alert('Şagird seçin');
+  const d=db();
+  d.notes.unshift({studentUser,grade,note,teacher:window._curTeacher.name,date:new Date().toLocaleDateString('az-AZ')});
+  saveDb(d);
+  document.getElementById('tGrade').value='';document.getElementById('tNote').value='';
+  renderTeacher();
+}
+
+/* ---- STUDENT ---- */
+function renderStudent(){
+  const d=db();
+  const sel=document.getElementById('sLessonSelect');
+  sel.innerHTML = LESSONS.map(l=>`<option value="${l.id}">${l.title}</option>`).join('');
+  const myAtt=d.attendance.filter(a=>a.studentUser===window._curStudent.user);
+  document.getElementById('attendanceListStudent').innerHTML = myAtt.length? myAtt.map(a=>{
+    const l=LESSONS.find(x=>x.id===a.lessonId);
+    return `<div class="list-item"><span>${l?l.title:a.lessonId}</span><span class="tag">${a.date}</span></div>`;
+  }).join('') : '<div class="empty">Hələ iştirak qeydi yoxdur</div>';
+
+  const myNotes=d.notes.filter(n=>n.studentUser===window._curStudent.user);
+  document.getElementById('studentGradesList').innerHTML = myNotes.length? myNotes.map(n=>`
+    <div class="list-item"><span>Qiymət: <b>${n.grade||'-'}</b> — ${n.note||''} (${n.teacher})</span><span class="tag">${n.date}</span></div>
+  `).join('') : '<div class="empty">Hələ qiymət/qeyd yoxdur</div>';
+
+  document.getElementById('announceListStudent').innerHTML = d.announcements.length? d.announcements.map(a=>`
+    <div class="list-item"><span>${a.text}</span><span class="tag">${a.date}</span></div>
+  `).join('') : '<div class="empty">Elan yoxdur</div>';
+}
+function registerAttendance(){
+  const lessonId=document.getElementById('sLessonSelect').value;
+  const d=db();
+  d.attendance.unshift({studentUser:window._curStudent.user,lessonId,date:new Date().toLocaleDateString('az-AZ')});
+  saveDb(d);
+  renderStudent();
+}
+</script>
+</body>
+</html>
