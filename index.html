@@ -158,25 +158,26 @@ footer .top a{color:rgba(255,255,255,.85)}
 
 <header>
   <div class="nav">
-    <div class="brand"><img src="assets/logo.png" alt="logo"><span>Rus Dili Tədris</span></div>
+    <div class="brand"><img src="assets/logo.png" alt="logo"><span data-i18n="brand">Rus Dili Tədris</span></div>
     <nav class="nav-links">
-      <a href="#plan">Cədvəl</a>
-      <a href="#lessons">Dərslər</a>
-      <a href="#alphabet">Əlifba</a>
-      <a href="#games">Testlər/Oyunlar</a>
-      <a href="#contact">Əlaqə</a>
+      <a href="#plan" data-i18n="navPlan">Cədvəl</a>
+      <a href="#lessons" data-i18n="navLessons">Dərslər</a>
+      <a href="#alphabet" data-i18n="navAlpha">Əlifba</a>
+      <a href="#games" data-i18n="navGames">Testlər/Oyunlar</a>
+      <a href="#contact" data-i18n="navContact">Əlaqə</a>
     </nav>
     <div style="display:flex;align-items:center;gap:10px">
-      <button class="login-btn" onclick="openLogin()">Giriş</button>
+      <button class="login-btn" style="background:transparent;border:1px solid rgba(255,255,255,.5);color:#fff;padding:7px 12px" onclick="toggleLang()" id="langBtn">RU</button>
+      <button class="login-btn" onclick="openLogin()" data-i18n="loginBtn">Giriş</button>
       <button class="burger" onclick="document.getElementById('mmenu').classList.toggle('open')">☰</button>
     </div>
   </div>
   <div class="mobile-menu" id="mmenu">
-    <a href="#plan">Dərs Cədvəli</a>
-    <a href="#lessons">Dərslər</a>
-    <a href="#alphabet">Əlifba</a>
-    <a href="#games">Testlər/Oyunlar</a>
-    <a href="#contact">Əlaqə</a>
+    <a href="#plan" data-i18n="navPlan2">Dərs Cədvəli</a>
+    <a href="#lessons" data-i18n="navLessons">Dərslər</a>
+    <a href="#alphabet" data-i18n="navAlpha">Əlifba</a>
+    <a href="#games" data-i18n="navGames">Testlər/Oyunlar</a>
+    <a href="#contact" data-i18n="navContact">Əlaqə</a>
   </div>
 </header>
 
@@ -187,56 +188,56 @@ footer .top a{color:rgba(255,255,255,.85)}
   <span class="float-emoji" style="left:50%;animation-delay:4s">🇷🇺</span>
   <span class="float-emoji" style="left:70%;animation-delay:1s">⭐</span>
   <span class="float-emoji" style="left:88%;animation-delay:3s">🎈</span>
-  <div class="badge">7–12 yaş üçün · 3 səviyyəli proqram</div>
-  <h1>Uşaqlar üçün Rus Dili Tədris Proqramı</h1>
-  <p>AN Psixoloji Dəstək və Reabilitasiya Mərkəzinin dəstəyi ilə — 24 dərs, hər dərsdə test, oyunlar və yekun qiymətləndirmə hesabatı.</p>
+  <div class="badge" data-i18n="heroBadge">7–12 yaş üçün · 3 səviyyəli proqram</div>
+  <h1 data-i18n="heroTitle">Uşaqlar üçün Rus Dili Tədris Proqramı</h1>
+  <p data-i18n="heroSub">AN Psixoloji Dəstək və Reabilitasiya Mərkəzinin dəstəyi ilə — 24 dərs, hər dərsdə test, oyunlar və yekun qiymətləndirmə hesabatı.</p>
   <div class="cta-row">
-    <a href="#plan" class="btn btn-gold">Dərs Cədvəli</a>
-    <a href="#lessons" class="btn btn-outline">Dərslərə Bax</a>
-    <a href="#games" class="btn btn-outline">Testlər & Oyunlar</a>
+    <a href="#plan" class="btn btn-gold" data-i18n="ctaPlan">Dərs Cədvəli</a>
+    <a href="#lessons" class="btn btn-outline" data-i18n="ctaLessons">Dərslərə Bax</a>
+    <a href="#games" class="btn btn-outline" data-i18n="ctaGames">Testlər & Oyunlar</a>
   </div>
 </section>
 
 <section id="plan">
-  <h2 class="section-title">Həftəlik Tədris Planı</h2>
-  <p class="section-sub">Həftədə 3 gün, hər dərs 1 saat — 8 həftəlik (24 dərs) tam proqram, 3 səviyyə üzrə tədricən çətinləşir</p>
+  <h2 class="section-title" data-i18n="planTitle">Həftəlik Tədris Planı</h2>
+  <p class="section-sub" data-i18n="planSub">Həftədə 3 gün, hər dərs 1 saat — 8 həftəlik (24 dərs) tam proqram, 3 səviyyə üzrə tədricən çətinləşir</p>
   <div class="plan-grid">
-    <div class="plan-card"><div class="day">Bazar ertəsi</div><div class="time">16:00 – 17:00</div><p>Yeni mövzu və sözlər</p></div>
-    <div class="plan-card"><div class="day">Çərşənbə</div><div class="time">16:00 – 17:00</div><p>Qrammatika, dialoq və oyunlar</p></div>
-    <div class="plan-card"><div class="day">Cümə</div><div class="time">16:00 – 17:00</div><p>Təkrar, test və tətbiq</p></div>
+    <div class="plan-card"><div class="day" data-i18n="day1">Bazar ertəsi</div><div class="time">16:00 – 17:00</div><p data-i18n="day1p">Yeni mövzu və sözlər</p></div>
+    <div class="plan-card"><div class="day" data-i18n="day2">Çərşənbə</div><div class="time">16:00 – 17:00</div><p data-i18n="day2p">Qrammatika, dialoq və oyunlar</p></div>
+    <div class="plan-card"><div class="day" data-i18n="day3">Cümə</div><div class="time">16:00 – 17:00</div><p data-i18n="day3p">Təkrar, test və tətbiq</p></div>
   </div>
 </section>
 
 <section id="lessons" style="background:var(--card)">
-  <h2 class="section-title">Dərslər</h2>
-  <p class="section-sub">Hər dərsdə izah, sözlər, ev tapşırığı və yoxlama testi</p>
+  <h2 class="section-title" data-i18n="lessonsTitle">Dərslər</h2>
+  <p class="section-sub" data-i18n="lessonsSub">Hər dərsdə izah, sözlər, ev tapşırığı və yoxlama testi</p>
   <div class="level-tabs" id="levelTabs"></div>
   <div class="wrap" id="lessonsContainer"></div>
 </section>
 
 <section id="alphabet" style="background:var(--card)">
-  <h2 class="section-title">Rus Əlifbası</h2>
-  <p class="section-sub">33 hərf — hər hərfə uyğun 5 söz</p>
+  <h2 class="section-title" data-i18n="alphaTitle">Rus Əlifbası</h2>
+  <p class="section-sub" data-i18n="alphaSub">33 hərf — hər hərfə uyğun 5 söz</p>
   <div class="wrap"><div class="memory-grid" id="alphaGrid" style="grid-template-columns:repeat(auto-fill,minmax(80px,1fr));max-width:100%"></div></div>
   <div class="wrap" id="alphaWords" style="margin-top:24px"></div>
 </section>
 
 <section id="games">
-  <h2 class="section-title">Testlər və Oyunlar</h2>
-  <p class="section-sub">Rus dilini əyləncəli şəkildə möhkəmləndir</p>
+  <h2 class="section-title" data-i18n="gamesTitle">Testlər və Oyunlar</h2>
+  <p class="section-sub" data-i18n="gamesSub">Rus dilini əyləncəli şəkildə möhkəmləndir</p>
   <div class="game-tabs">
-    <div class="game-tab active" data-g="memory" onclick="switchGame('memory')">🧠 Yaddaş Oyunu</div>
-    <div class="game-tab" data-g="quiz" onclick="switchGame('quiz')">❓ Sürətli Test</div>
+    <div class="game-tab active" data-g="memory" onclick="switchGame('memory')" data-i18n="gameMemTab">🧠 Yaddaş Oyunu</div>
+    <div class="game-tab" data-g="quiz" onclick="switchGame('quiz')" data-i18n="gameQuizTab">❓ Sürətli Test</div>
   </div>
   <div id="gameMemory">
-    <div class="game-info" id="memInfo">Cütləri tapın!</div>
+    <div class="game-info" id="memInfo" data-i18n="memInfoText">Cütləri tapın!</div>
     <div class="memory-grid" id="memoryGrid"></div>
   </div>
   <div id="gameQuiz" style="display:none">
     <div class="quiz-game-box">
       <div id="quizGameStart">
-        <p style="margin-bottom:16px;color:var(--muted)">10 sualdan ibarət qarışıq sürətli test — bütün dərslərdən!</p>
-        <button class="btn btn-gold" onclick="startQuickQuiz()">Testə Başla</button>
+        <p style="margin-bottom:16px;color:var(--muted)" data-i18n="quizGameDesc">10 sualdan ibarət qarışıq sürətli test — bütün dərslərdən!</p>
+        <button class="btn btn-gold" onclick="startQuickQuiz()" data-i18n="quizStartBtn">Testə Başla</button>
       </div>
       <div id="quizGameBody" style="display:none"></div>
     </div>
@@ -244,12 +245,12 @@ footer .top a{color:rgba(255,255,255,.85)}
 </section>
 
 <section id="contact">
-  <h2 class="section-title">Əlaqə</h2>
+  <h2 class="section-title" data-i18n="contactTitle">Əlaqə</h2>
   <p class="section-sub">AN Psixoloji Dəstək və Reabilitasiya Mərkəzi</p>
   <div class="contact-grid">
-    <div class="contact-card"><div class="ic">📞</div><h4>Telefon</h4><a href="tel:+994554157215">+994 55 415 72 15</a></div>
+    <div class="contact-card"><div class="ic">📞</div><h4 data-i18n="phoneLabel">Telefon</h4><a href="tel:+994554157215">+994 55 415 72 15</a></div>
     <div class="contact-card"><div class="ic">📷</div><h4>Instagram</h4><a href="https://instagram.com/an_psixologiyamerkezi" target="_blank">@an_psixologiyamerkezi</a></div>
-    <div class="contact-card"><div class="ic">📍</div><h4>Mərkəz</h4><p>AN Psixoloji Dəstək və Reabilitasiya Mərkəzi</p></div>
+    <div class="contact-card"><div class="ic">📍</div><h4 data-i18n="centerLabel">Mərkəz</h4><p>AN Psixoloji Dəstək və Reabilitasiya Mərkəzi</p></div>
   </div>
 </section>
 </div>
@@ -257,15 +258,15 @@ footer .top a{color:rgba(255,255,255,.85)}
 <div class="modal-overlay" id="loginOverlay">
   <div class="modal">
     <button class="close" onclick="closeLogin()">✕</button>
-    <h3>Hesaba Giriş</h3>
+    <h3 data-i18n="loginTitle">Hesaba Giriş</h3>
     <div class="role-tabs">
       <div class="role-tab active" data-role="admin" onclick="selectRole('admin')">Admin</div>
-      <div class="role-tab" data-role="teacher" onclick="selectRole('teacher')">Müəllim</div>
-      <div class="role-tab" data-role="student" onclick="selectRole('student')">Şagird</div>
+      <div class="role-tab" data-role="teacher" onclick="selectRole('teacher')" data-i18n="roleTeacher">Müəllim</div>
+      <div class="role-tab" data-role="student" onclick="selectRole('student')" data-i18n="roleStudent">Şagird</div>
     </div>
-    <div class="field"><label>İstifadəçi adı</label><input id="loginUser" type="text"></div>
-    <div class="field"><label>Şifrə</label><input id="loginPass" type="password"> <label style="display:flex;align-items:center;gap:6px;margin-top:6px;font-weight:400"><input type="checkbox" onclick="document.getElementById('loginPass').type=this.checked?'text':'password'" style="width:auto"> Şifrəni göstər</label></div>
-    <button class="submit-btn" onclick="doLogin()">Daxil ol</button>
+    <div class="field"><label data-i18n="labelUser">İstifadəçi adı</label><input id="loginUser" type="text"></div>
+    <div class="field"><label data-i18n="labelPass">Şifrə</label><input id="loginPass" type="password"> <label style="display:flex;align-items:center;gap:6px;margin-top:6px;font-weight:400"><input type="checkbox" onclick="document.getElementById('loginPass').type=this.checked?'text':'password'" style="width:auto"> <span data-i18n="showPass">Şifrəni göstər</span></label></div>
+    <button class="submit-btn" onclick="doLogin()" data-i18n="loginSubmit">Daxil ol</button>
     <p class="hint">Admin: admin / admin2026</p>
   </div>
 </div>
@@ -361,11 +362,70 @@ footer .top a{color:rgba(255,255,255,.85)}
     <a href="tel:+994554157215">📞 +994 55 415 72 15</a>
     <a href="https://instagram.com/an_psixologiyamerkezi" target="_blank">📷 AN Mərkəzi</a>
   </div>
-  <div>© 2026 AN Psixoloji Dəstək və Reabilitasiya Mərkəzi — Rus Dili Tədris Proqramı</div>
+  <div data-i18n="footerLine">© 2026 AN Psixoloji Dəstək və Reabilitasiya Mərkəzi — Rus Dili Tədris Proqramı</div>
   <div style="margin-top:6px">By s_akhundoff · <a class="ig" href="https://instagram.com/s_akhundoff" target="_blank">@s_akhundoff</a></div>
 </footer>
 
 <script>
+/* ================= AZ/RU INTERFACE TOGGLE ================= */
+const TR = {
+ brand:{az:'Rus Dili Tədris',ru:'Изучение русского'},
+ navPlan:{az:'Cədvəl',ru:'Расписание'},
+ navPlan2:{az:'Dərs Cədvəli',ru:'Расписание'},
+ navLessons:{az:'Dərslər',ru:'Уроки'},
+ navAlpha:{az:'Əlifba',ru:'Алфавит'},
+ navGames:{az:'Testlər/Oyunlar',ru:'Тесты/Игры'},
+ navContact:{az:'Əlaqə',ru:'Контакты'},
+ loginBtn:{az:'Giriş',ru:'Вход'},
+ heroBadge:{az:'7–12 yaş üçün · 3 səviyyəli proqram',ru:'Для детей 7–12 лет · 3 уровня'},
+ heroTitle:{az:'Uşaqlar üçün Rus Dili Tədris Proqramı',ru:'Программа обучения русскому языку для детей'},
+ heroSub:{az:'AN Psixoloji Dəstək və Reabilitasiya Mərkəzinin dəstəyi ilə — 24 dərs, hər dərsdə test, oyunlar və yekun qiymətləndirmə hesabatı.',ru:'При поддержке Центра AN — 24 урока, тесты в каждом уроке, игры и итоговый отчёт об успеваемости.'},
+ ctaPlan:{az:'Dərs Cədvəli',ru:'Расписание'},
+ ctaLessons:{az:'Dərslərə Bax',ru:'Смотреть уроки'},
+ ctaGames:{az:'Testlər & Oyunlar',ru:'Тесты и игры'},
+ planTitle:{az:'Həftəlik Tədris Planı',ru:'Недельный план занятий'},
+ planSub:{az:'Həftədə 3 gün, hər dərs 1 saat — 8 həftəlik (24 dərs) tam proqram, 3 səviyyə üzrə tədricən çətinləşir',ru:'3 дня в неделю, по 1 часу — полная программа из 24 уроков на 8 недель, сложность растёт по 3 уровням'},
+ day1:{az:'Bazar ertəsi',ru:'Понедельник'}, day1p:{az:'Yeni mövzu və sözlər',ru:'Новая тема и слова'},
+ day2:{az:'Çərşənbə',ru:'Среда'}, day2p:{az:'Qrammatika, dialoq və oyunlar',ru:'Грамматика, диалоги и игры'},
+ day3:{az:'Cümə',ru:'Пятница'}, day3p:{az:'Təkrar, test və tətbiq',ru:'Повторение, тест и практика'},
+ lessonsTitle:{az:'Dərslər',ru:'Уроки'},
+ lessonsSub:{az:'Hər dərsdə izah, sözlər, ev tapşırığı və yoxlama testi',ru:'В каждом уроке объяснение, слова, домашнее задание и тест'},
+ alphaTitle:{az:'Rus Əlifbası',ru:'Русский алфавит'},
+ alphaSub:{az:'33 hərf — hər hərfə uyğun 5 söz',ru:'33 буквы — по 5 слов на каждую букву'},
+ gamesTitle:{az:'Testlər və Oyunlar',ru:'Тесты и игры'},
+ gamesSub:{az:'Rus dilini əyləncəli şəkildə möhkəmləndir',ru:'Закрепляйте русский язык в игровой форме'},
+ gameMemTab:{az:'🧠 Yaddaş Oyunu',ru:'🧠 Игра на память'},
+ gameQuizTab:{az:'❓ Sürətli Test',ru:'❓ Быстрый тест'},
+ memInfoText:{az:'Cütləri tapın!',ru:'Найдите пары!'},
+ quizGameDesc:{az:'10 sualdan ibarət qarışıq sürətli test — bütün dərslərdən!',ru:'Быстрый тест из 10 вопросов по всем урокам!'},
+ quizStartBtn:{az:'Testə Başla',ru:'Начать тест'},
+ contactTitle:{az:'Əlaqə',ru:'Контакты'},
+ phoneLabel:{az:'Telefon',ru:'Телефон'},
+ centerLabel:{az:'Mərkəz',ru:'Центр'},
+ loginTitle:{az:'Hesaba Giriş',ru:'Вход в аккаунт'},
+ roleTeacher:{az:'Müəllim',ru:'Учитель'},
+ roleStudent:{az:'Şagird',ru:'Ученик'},
+ labelUser:{az:'İstifadəçi adı',ru:'Имя пользователя'},
+ labelPass:{az:'Şifrə',ru:'Пароль'},
+ showPass:{az:'Şifrəni göstər',ru:'Показать пароль'},
+ loginSubmit:{az:'Daxil ol',ru:'Войти'},
+ footerLine:{az:'© 2026 AN Psixoloji Dəstək və Reabilitasiya Mərkəzi — Rus Dili Tədris Proqramı',ru:'© 2026 Центр психологической поддержки AN — Программа обучения русскому языку'}
+};
+function applyLang(lang){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.getAttribute('data-i18n');
+    if(TR[key] && TR[key][lang]) el.textContent = TR[key][lang];
+  });
+  document.getElementById('langBtn').textContent = lang==='az' ? 'RU' : 'AZ';
+  document.documentElement.lang = lang;
+  localStorage.setItem('rd_lang', lang);
+}
+function toggleLang(){
+  const cur = localStorage.getItem('rd_lang') || 'az';
+  applyLang(cur==='az' ? 'ru' : 'az');
+}
+applyLang(localStorage.getItem('rd_lang') || 'az');
+
 /* ================= LESSON DATA: 3 LEVELS x 8 LESSONS = 24 ================= */
 const LEVELS = [
 {id:'lvl1',name:'Səviyyə 1 — Başlanğıc',lessons:[
