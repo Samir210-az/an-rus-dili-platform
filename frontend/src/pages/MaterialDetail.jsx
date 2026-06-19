@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import Crossword from '../components/Crossword';
 
 export default function MaterialDetail() {
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [answers, setAnswers] = useState({});
   const [result, setResult] = useState(null);
+  const [gameResult, setGameResult] = useState(null);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -29,6 +31,18 @@ export default function MaterialDetail() {
         {data.material.audioUrl && <audio controls src={data.material.audioUrl} style={{ width: '100%', marginTop: 10 }} />}
         {data.material.imageUrl && <img src={data.material.imageUrl} alt="" style={{ maxWidth: '100%', borderRadius: 12, marginTop: 10 }} />}
       </div>
+
+      {data.material.crosswordData?.length > 0 && (
+        <Crossword
+          words={data.material.crosswordData}
+          onComplete={(correct, total) => setGameResult({ correct, total })}
+        />
+      )}
+      {gameResult && (
+        <div className="card" style={{ background: '#E8F5E9' }}>
+          🎉 Nəticə: {gameResult.correct}/{gameResult.total} düzgün!
+        </div>
+      )}
 
       {data.questions.length > 0 && (
         <div className="card">

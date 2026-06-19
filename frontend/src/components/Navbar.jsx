@@ -29,6 +29,11 @@ export default function Navbar() {
         {['teacher', 'parent', 'admin', 'super_admin'].includes(user?.role) && (
           <Link to="/messages">💬 Mesajlar</Link>
         )}
+        {['teacher', 'admin', 'super_admin'].includes(user?.role) && (
+          <Link to="/templates">📂 Şablonlar</Link>
+        )}
+        <Link to="/about">Haqqımızda</Link>
+        <Link to="/contact">Əlaqə</Link>
         <select value={lang} onChange={e => changeLang(e.target.value)} style={{ borderRadius: 8, padding: 4 }}>
           <option value="az">AZ</option>
           <option value="ru">RU</option>

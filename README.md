@@ -45,6 +45,10 @@ npm run dev
 - 🔔 Avtomatik bildirişlər (dərs xatırlatması, tapşırıq son tarixi)
 - 🌍 İkidillilik (AZ/RU)
 - 🛠️ Admin Paneli (istifadəçi CRUD, avtomatik şifrə generasiyası)
+- 🏛️ Haqqımızda / 📞 Əlaqə (ictimai səhifələr)
+- 📂 Hazır şablonlar (test/diktant/fleş-kart yükləmə)
+- 🧩 Krossvord oyunu
+- 📄 PDF hesabat ixracı (valideyn üçün)
 
 ## API Endpoint-lər (əsas)
 | Metod | Endpoint | Təsvir |

@@ -17,6 +17,9 @@ import Materials from './pages/Materials';
 import MaterialDetail from './pages/MaterialDetail';
 import ParentTips from './pages/ParentTips';
 import Messages from './pages/Messages';
+import About from './pages/About';
+import Contact from './pages/Contact';
+import Templates from './pages/Templates';
 
 function Layout({ children }) {
   const location = useLocation();
@@ -47,6 +50,9 @@ export default function App() {
               <Route path="/materials/:id" element={<ProtectedRoute><MaterialDetail /></ProtectedRoute>} />
               <Route path="/parent-tips" element={<ProtectedRoute roles={['parent', 'admin', 'super_admin']}><ParentTips /></ProtectedRoute>} />
               <Route path="/messages" element={<ProtectedRoute roles={['teacher', 'parent', 'admin', 'super_admin']}><Messages /></ProtectedRoute>} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/templates" element={<ProtectedRoute roles={['teacher', 'admin', 'super_admin']}><Templates /></ProtectedRoute>} />
               <Route path="/admin" element={
                 <ProtectedRoute roles={['admin', 'super_admin']}><AdminPanel /></ProtectedRoute>
               } />

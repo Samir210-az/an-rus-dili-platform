@@ -29,6 +29,9 @@ export default function Progress() {
         <div className="card">
           <h3>{studentProfile.firstName} {studentProfile.lastName}</h3>
           <p>Səviyyə: {studentProfile.level} | Ulduzlar: ⭐ {studentProfile.totalStars} | Rütbə: {studentProfile.rank}</p>
+          <a href={`/api/reports/student/${studentProfile.id}/pdf`} target="_blank" rel="noopener noreferrer">
+            <button className="btn btn-secondary" style={{ marginTop: 8 }}>📄 PDF hesabat yüklə</button>
+          </a>
         </div>
       )}
       {data && (

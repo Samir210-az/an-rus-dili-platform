@@ -14,6 +14,7 @@ const Material = sequelize.define('Material', {
   audioUrl: { type: DataTypes.STRING },
   imageUrl: { type: DataTypes.STRING },
   fileUrl: { type: DataTypes.STRING },
+  crosswordData: { type: DataTypes.JSON }, // [{word, clue}] - yalniz 'oyun' kateqoriyasi ucun
   teacherId: { type: DataTypes.UUID },
 }, { tableName: 'materials', timestamps: true });
 
