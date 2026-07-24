@@ -91,7 +91,9 @@ section{padding:50px 20px}
 .lesson-body.open{display:block}
 .lesson-body p{color:var(--text);font-size:14px;margin-bottom:10px}
 .word-chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
-.chip{background:var(--card);border:1px solid var(--gold-light);color:var(--bordo);padding:7px 13px;border-radius:20px;font-size:12.5px;font-weight:600;transition:.2s}
+.chip{background:var(--card);border:1px solid var(--gold-light);color:var(--bordo);padding:7px 13px;border-radius:20px;font-size:12.5px;font-weight:600;transition:.2s;display:inline-flex;align-items:center;gap:6px}
+.chip .spk{background:var(--bordo);color:#fff;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
+.chip:active{transform:scale(.96)}
 .chip:hover{background:var(--gold-light);color:var(--bordo-deep);transform:translateY(-1px)}
 .hw-box{background:var(--card);border-left:4px solid var(--bordo);border-radius:12px;padding:16px;margin-top:14px}
 .hw-box h4{color:var(--bordo);margin-bottom:8px;font-size:14px}
@@ -202,9 +204,9 @@ footer .top a{color:rgba(255,255,255,.85)}
   <span class="float-emoji" style="left:50%;animation-delay:4s">🇷🇺</span>
   <span class="float-emoji" style="left:70%;animation-delay:1s">⭐</span>
   <span class="float-emoji" style="left:88%;animation-delay:3s">🎈</span>
-  <div class="badge" data-i18n="heroBadge">7–12 yaş üçün · 3 səviyyəli proqram</div>
-  <h1 data-i18n="heroTitle">Uşaqlar üçün Rus Dili Tədris Proqramı</h1>
-  <p data-i18n="heroSub">AN Psixoloji Dəstək və Reabilitasiya Mərkəzinin dəstəyi ilə — 24 dərs, hər dərsdə test, oyunlar və yekun qiymətləndirmə hesabatı.</p>
+  <div class="badge" id="heroBadgeText" data-i18n="heroBadge">7–12 yaş və yeniyetmə/böyüklər üçün · Uşaq proqramı + CEFR A1–B2</div>
+  <h1 id="heroTitleText" data-i18n="heroTitle">Rus Dili Tədris Proqramı — Uşaqlardan Böyüklərə</h1>
+  <p id="heroSubText" data-i18n="heroSub">AN Psixoloji Dəstək və Reabilitasiya Mərkəzinin dəstəyi ilə — uşaqlar üçün 24 dərslik proqram və yeniyetmə/böyüklər üçün CEFR A1–B2 səviyyəli tam kurs, hər dərsdə test, tələffüz məşqi və yekun qiymətləndirmə.</p>
   <div class="track-switch">
     <button class="track-tab active" data-track="child" onclick="switchTrack('child')">👶 Uşaq Proqramı <span class="track-age">7–12 yaş</span></button>
     <button class="track-tab" data-track="adult" onclick="switchTrack('adult')">🎓 Yeniyetmə / Böyük <span class="track-age">CEFR A1–B2</span></button>
@@ -425,9 +427,9 @@ const TR = {
  navGames:{az:'Testlər/Oyunlar',ru:'Тесты/Игры'},
  navContact:{az:'Əlaqə',ru:'Контакты'},
  loginBtn:{az:'Giriş',ru:'Вход'},
- heroBadge:{az:'7–12 yaş üçün · 3 səviyyəli proqram',ru:'Для детей 7–12 лет · 3 уровня'},
- heroTitle:{az:'Uşaqlar üçün Rus Dili Tədris Proqramı',ru:'Программа обучения русскому языку для детей'},
- heroSub:{az:'AN Psixoloji Dəstək və Reabilitasiya Mərkəzinin dəstəyi ilə — 24 dərs, hər dərsdə test, oyunlar və yekun qiymətləndirmə hesabatı.',ru:'При поддержке Центра AN — 24 урока, тесты в каждом уроке, игры и итоговый отчёт об успеваемости.'},
+ heroBadge:{az:'7–12 yaş və yeniyetmə/böyüklər üçün · Uşaq proqramı + CEFR A1–B2',ru:'Для детей 7–12 лет и подростков/взрослых · Детская программа + CEFR A1–B2'},
+ heroTitle:{az:'Rus Dili Tədris Proqramı — Uşaqlardan Böyüklərə',ru:'Программа обучения русскому языку — от детей до взрослых'},
+ heroSub:{az:'AN Psixoloji Dəstək və Reabilitasiya Mərkəzinin dəstəyi ilə — uşaqlar üçün 24 dərslik proqram və yeniyetmə/böyüklər üçün CEFR A1–B2 səviyyəli tam kurs, hər dərsdə test, tələffüz məşqi və yekun qiymətləndirmə.',ru:'При поддержке Центра AN — программа для детей из 24 уроков и полный курс CEFR A1–B2 для подростков и взрослых, тесты и практика произношения в каждом уроке.'},
  ctaPlan:{az:'Dərs Cədvəli',ru:'Расписание'},
  ctaLessons:{az:'Dərslərə Bax',ru:'Смотреть уроки'},
  ctaGames:{az:'Testlər & Oyunlar',ru:'Тесты и игры'},
@@ -487,6 +489,14 @@ function switchTrack(t){
   curLevel = LEVELS[0].id;
   document.querySelectorAll('.track-tab').forEach(b=>b.classList.toggle('active', b.dataset.track===t));
   const lang = localStorage.getItem('rd_lang') || 'az';
+  const heroBadge = document.getElementById('heroBadgeText');
+  if(heroBadge){
+    if(t==='adult'){
+      heroBadge.textContent = lang==='az' ? '🎓 Yeniyetmə/Böyük proqramı seçildi · CEFR A1–B2' : '🎓 Выбрана программа для подростков/взрослых · CEFR A1–B2';
+    } else {
+      heroBadge.textContent = lang==='az' ? '👶 Uşaq proqramı seçildi · 7–12 yaş · 4 səviyyə' : '👶 Выбрана детская программа · 7–12 лет · 4 уровня';
+    }
+  }
   const titleEl = document.getElementById('lessonsTitleText');
   const subEl = document.getElementById('lessonsSubText');
   if(t==='adult'){
@@ -550,7 +560,7 @@ function renderAlphaWords(){
   document.getElementById('alphaWords').innerHTML = `
     <div class="lesson-card"><div class="lesson-body open" style="padding-top:20px">
       <h3 style="color:var(--bordo);margin-bottom:12px">Hərf: ${a.l}</h3>
-      <div class="word-chips">${a.w.map(w=>`<div class="chip" onclick="speakChip(this)" data-w="${escAttr(w)}" style="cursor:pointer" title="Tələffüzü dinlə">🔊 ${w}</div>`).join('')}</div>
+      <div class="word-chips">${a.w.map(w=>`<div class="chip" onclick="speakChip(this)" data-w="${escAttr(w)}" style="cursor:pointer" title="Tələffüzü dinlə"><span class="spk">🔊</span> ${w}</div>`).join('')}</div>
     </div></div>`;
 }
 renderAlphabetGrid();
@@ -617,7 +627,7 @@ function renderLessons(){
       </div>
       <div class="lesson-body" id="body-${l.id}">
         <p>${l.desc}</p>
-        <div class="word-chips">${l.words.map(w=>`<div class="chip" onclick="speakChip(this)" data-w="${escAttr(w)}" style="cursor:pointer" title="Tələffüzü dinlə">🔊 ${w}</div>`).join('')}</div>
+        <div class="word-chips">${l.words.map(w=>`<div class="chip" onclick="speakChip(this)" data-w="${escAttr(w)}" style="cursor:pointer" title="Tələffüzü dinlə"><span class="spk">🔊</span> ${w}</div>`).join('')}</div>
         <button class="small-btn" style="background:var(--gold-dark);margin:0 0 14px" onclick="speakAllWords(this)" data-words="${encodeURIComponent(JSON.stringify(l.words))}">🔊 Bütün sözləri dinlə</button>
         <div class="hw-box">
           <h4>📝 Ev tapşırığı</h4>
