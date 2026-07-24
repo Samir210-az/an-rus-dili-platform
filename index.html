@@ -84,6 +84,18 @@ section{padding:50px 20px}
 .lesson-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px;border:1px solid var(--line)}
 .lesson-head{display:flex;align-items:center;gap:16px;padding:22px;flex-wrap:wrap;cursor:pointer}
 .lesson-illustration{width:90px;height:90px;border-radius:16px;background:linear-gradient(135deg,var(--gold-light),var(--gold));display:flex;align-items:center;justify-content:center;font-size:42px;flex-shrink:0;animation:bounce 3s ease-in-out infinite}
+.lesson-fullscreen{position:fixed;inset:0;background:var(--bg);z-index:500;overflow-y:auto;display:none}
+.lesson-fullscreen.open{display:block;animation:lfFadeIn .35s ease}
+@keyframes lfFadeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.lf-topbar{position:sticky;top:0;background:linear-gradient(135deg,var(--bordo),var(--bordo-deep));color:#fff;padding:16px 20px;display:flex;align-items:center;gap:14px;z-index:5;box-shadow:0 4px 14px rgba(0,0,0,.15)}
+.lf-close{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);color:#fff;padding:9px 16px;border-radius:20px;font-weight:700;font-size:13px;flex-shrink:0}
+.lf-hero{padding:34px 20px 20px;text-align:center;background:radial-gradient(circle at 50% 0%,var(--gold-light) 0%,transparent 60%)}
+.lf-hero-emoji{font-size:76px;display:inline-block;animation:lfFloat 3.2s ease-in-out infinite}
+@keyframes lfFloat{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-14px) rotate(3deg)}}
+.lf-body{max-width:720px;margin:0 auto;padding:0 20px 60px}
+.chip{background:var(--card);border:1px solid var(--gold-light);color:var(--bordo);padding:7px 13px;border-radius:20px;font-size:12.5px;font-weight:600;transition:.2s;display:inline-flex;align-items:center;gap:6px;opacity:0;animation:chipIn .4s ease forwards}
+@keyframes chipIn{from{opacity:0;transform:translateY(8px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
+.chip.speaking{background:var(--teal);border-color:var(--teal);color:#fff;transform:scale(1.08)}
 @keyframes bounce{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-7px) rotate(3deg)}}
 .lesson-head h3{color:var(--bordo);font-size:18px;margin-bottom:5px}
 .lesson-head .meta{color:var(--gold-dark);font-size:12.5px;font-weight:600}
@@ -91,7 +103,6 @@ section{padding:50px 20px}
 .lesson-body.open{display:block}
 .lesson-body p{color:var(--text);font-size:14px;margin-bottom:10px}
 .word-chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
-.chip{background:var(--card);border:1px solid var(--gold-light);color:var(--bordo);padding:7px 13px;border-radius:20px;font-size:12.5px;font-weight:600;transition:.2s;display:inline-flex;align-items:center;gap:6px}
 .chip .spk{background:var(--bordo);color:#fff;width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
 .chip:active{transform:scale(.96)}
 .chip:hover{background:var(--gold-light);color:var(--bordo-deep);transform:translateY(-1px)}
@@ -307,6 +318,14 @@ footer .top a{color:rgba(255,255,255,.85)}
     <button class="submit-btn" onclick="doLogin()" data-i18n="loginSubmit">Daxil ol</button>
     <p class="hint">Admin: admin / AN2026EA</p>
   </div>
+</div>
+
+<div class="lesson-fullscreen" id="lessonFullscreen">
+  <div class="lf-topbar">
+    <button class="lf-close" onclick="closeLessonView()">✕ Bağla</button>
+    <div id="lfTopTitle" style="font-weight:700;font-size:14px"></div>
+  </div>
+  <div id="lessonFullscreenBody"></div>
 </div>
 
 <div class="modal-overlay" id="placementOverlay">
@@ -599,17 +618,23 @@ function speakRu(text){
   window.speechSynthesis.speak(u);
 }
 function speakChip(el){ speakRu(ruPart(el.dataset.w)); }
-function speakAllWords(btn, listId){
+function speakAllWords(btn, lessonId){
   const words = JSON.parse(decodeURIComponent(btn.dataset.words));
   if(!('speechSynthesis' in window)){ alert('Təəssüf ki, brauzeriniz səsli oxumanı dəstəkləmir.'); return; }
   window.speechSynthesis.cancel();
   let i=0;
+  function clearHighlight(){ document.querySelectorAll('.chip.speaking').forEach(c=>c.classList.remove('speaking')); }
   function next(){
+    clearHighlight();
     if(i>=words.length) return;
+    if(lessonId){
+      const chipEl = document.getElementById(`chip-${lessonId}-${i}`);
+      if(chipEl){ chipEl.classList.add('speaking'); chipEl.scrollIntoView({behavior:'smooth', block:'nearest'}); }
+    }
     const u = new SpeechSynthesisUtterance(ruPart(words[i]));
     u.lang='ru-RU'; u.rate=SPEECH_RATE; u.pitch=1;
     if(_ruVoice) u.voice=_ruVoice;
-    u.onend = ()=>{ i++; setTimeout(next, 350); }; // sözlər arasında qısa fasilə — daha rahat izlənilir
+    u.onend = ()=>{ i++; setTimeout(next, 600); }; // hər sözdən sonra 600ms fasilə — uşaq izləyə bilsin
     window.speechSynthesis.speak(u);
   }
   next();
@@ -629,40 +654,58 @@ function renderLessons(){
   const c=document.getElementById('lessonsContainer');
   c.innerHTML=lv.lessons.map(l=>`
     <div class="lesson-card">
-      <div class="lesson-head" onclick="toggleLesson('${l.id}')">
+      <div class="lesson-head" onclick="openLessonView('${l.id}')">
         <div class="lesson-illustration">${l.emoji}</div>
         <div><h3>${l.title}</h3><div class="meta">${l.meta}</div></div>
-      </div>
-      <div class="lesson-body" id="body-${l.id}">
-        ${l.desc.split('\n\n').map(p=>`<p>${p}</p>`).join('')}
-        <div class="word-chips">${l.words.map(w=>`<div class="chip" onclick="speakChip(this)" data-w="${escAttr(w)}" style="cursor:pointer" title="Tələffüzü dinlə"><span class="spk">🔊</span> ${w}</div>`).join('')}</div>
-        <button class="small-btn" style="background:var(--gold-dark);margin:0 0 14px" onclick="speakAllWords(this)" data-words="${encodeURIComponent(JSON.stringify(l.words))}">🔊 Bütün sözləri dinlə</button>
-        ${l.sentences && l.sentences.length ? `
-        <div class="sentence-box">
-          <h4>💬 Nümunə cümlələr</h4>
-          <ol class="sentence-list">${l.sentences.map(s=>`<li><span onclick="speakRu(ruPart('${s.replace(/'/g,"\\'")}'))" style="cursor:pointer" title="Tələffüzü dinlə">🔊 ${s}</span></li>`).join('')}</ol>
-        </div>` : ''}
-        <div class="hw-box">
-          <h4>📝 Ev tapşırığı</h4>
-          <ol>${l.hw.map(h=>`<li>${h}</li>`).join('')}</ol>
-          <button class="download-btn" onclick="downloadHomework('${l.id}')">⬇ HTML kimi yadda saxla</button>
-        </div>
-        <div class="quiz-box">
-          <h4>❓ Yoxlama testi</h4>
-          ${l.quiz.map((q,qi)=>`
-            <div class="qz-q">${qi+1}. ${q.q}</div>
-            <div class="qz-opts" id="qopts-${l.id}-${qi}">
-              ${q.o.map((opt,oi)=>`<label class="qz-opt"><input type="radio" name="${l.id}-${qi}" value="${oi}"> ${opt}</label>`).join('')}
-            </div>
-          `).join('')}
-          <button class="small-btn" onclick="checkQuiz('${l.id}')">Yoxla</button>
-          <div id="qresult-${l.id}"></div>
-        </div>
       </div>
     </div>
   `).join('');
 }
-function toggleLesson(id){ document.getElementById('body-'+id).classList.toggle('open'); }
+function openLessonView(id){
+  const l = ALL_LESSONS.find(x=>x.id===id);
+  if(!l) return;
+  document.getElementById('lfTopTitle').textContent = l.title;
+  const body = document.getElementById('lessonFullscreenBody');
+  body.innerHTML = `
+    <div class="lf-hero">
+      <div class="lf-hero-emoji">${l.emoji}</div>
+      <h2 style="margin-top:10px">${l.title}</h2>
+      <div class="meta">${l.meta}</div>
+    </div>
+    <div class="lf-body">
+      ${l.desc.split('\n\n').map(p=>`<p>${p}</p>`).join('')}
+      <div class="word-chips">${l.words.map((w,i)=>`<div class="chip" id="chip-${l.id}-${i}" style="animation-delay:${(i*0.04).toFixed(2)}s" onclick="speakChip(this)" data-w="${escAttr(w)}" title="Tələffüzü dinlə"><span class="spk">🔊</span> ${w}</div>`).join('')}</div>
+      <button class="small-btn" style="background:var(--gold-dark);margin:0 0 14px" onclick="speakAllWords(this,'${l.id}')" data-words="${encodeURIComponent(JSON.stringify(l.words))}">🔊 Bütün sözləri dinlə (ardıcıl)</button>
+      ${l.sentences && l.sentences.length ? `
+      <div class="sentence-box">
+        <h4>💬 Nümunə cümlələr</h4>
+        <ol class="sentence-list">${l.sentences.map(s=>`<li><span onclick="speakRu(ruPart('${s.replace(/'/g,"\\'")}'))" style="cursor:pointer" title="Tələffüzü dinlə">🔊 ${s}</span></li>`).join('')}</ol>
+      </div>` : ''}
+      <div class="hw-box">
+        <h4>📝 Ev tapşırığı</h4>
+        <ol>${l.hw.map(h=>`<li>${h}</li>`).join('')}</ol>
+        <button class="download-btn" onclick="downloadHomework('${l.id}')">⬇ HTML kimi yadda saxla</button>
+      </div>
+      <div class="quiz-box">
+        <h4>❓ Yoxlama testi</h4>
+        ${l.quiz.map((q,qi)=>`
+          <div class="qz-q">${qi+1}. ${q.q}</div>
+          <div class="qz-opts" id="qopts-${l.id}-${qi}">
+            ${q.o.map((opt,oi)=>`<label class="qz-opt"><input type="radio" name="${l.id}-${qi}" value="${oi}"> ${opt}</label>`).join('')}
+          </div>
+        `).join('')}
+        <button class="small-btn" onclick="checkQuiz('${l.id}')">Yoxla</button>
+        <div id="qresult-${l.id}"></div>
+      </div>
+    </div>
+  `;
+  document.getElementById('lessonFullscreen').classList.add('open');
+  document.getElementById('lessonFullscreen').scrollTop = 0;
+}
+function closeLessonView(){
+  document.getElementById('lessonFullscreen').classList.remove('open');
+  if('speechSynthesis' in window) window.speechSynthesis.cancel();
+}
 renderLevelTabs(); renderLessons();
 
 function downloadHomework(id){
