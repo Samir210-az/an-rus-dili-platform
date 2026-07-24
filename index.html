@@ -213,6 +213,7 @@ footer .top a{color:rgba(255,255,255,.85)}
   </div>
   <div class="cta-row">
     <button class="btn btn-outline" style="background:rgba(255,255,255,.08)" onclick="openPlacementTest()">🎯 Səviyyəmi test et</button>
+    <a href="https://samir210-az.github.io/sesim/" target="_blank" class="btn btn-outline" style="background:rgba(255,255,255,.08)">🔊 Səsim ilə Dinlə (Müəllim üçün)</a>
   </div>
   <div class="cta-row">
     <a href="#plan" class="btn btn-gold" data-i18n="ctaPlan">Dərs Cədvəli</a>
@@ -575,18 +576,22 @@ let _ruVoice = null;
 function pickRuVoice(){
   if(!('speechSynthesis' in window)) return;
   const voices = window.speechSynthesis.getVoices();
-  _ruVoice = voices.find(v=>v.lang && v.lang.toLowerCase().startsWith('ru')) || null;
+  const ruVoices = voices.filter(v=>v.lang && v.lang.toLowerCase().startsWith('ru'));
+  // Keyfiyyətli online səsləri (Google/Microsoft) local (offline, robot səsli) səslərdən üstün tuturuq
+  _ruVoice = ruVoices.find(v=>/google|microsoft|natural|online/i.test(v.name)) || ruVoices[0] || null;
 }
 if('speechSynthesis' in window){
   pickRuVoice();
   window.speechSynthesis.onvoiceschanged = pickRuVoice;
 }
+const SPEECH_RATE = 0.65; // uşaqlar üçün yavaş, aydın tempo (1 = normal sürət)
 function speakRu(text){
   if(!('speechSynthesis' in window)){ alert('Təəssüf ki, brauzeriniz səsli oxumanı dəstəkləmir. Chrome və ya Edge istifadə edin.'); return; }
   window.speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
   u.lang = 'ru-RU';
-  u.rate = 0.85;
+  u.rate = SPEECH_RATE;
+  u.pitch = 1;
   if(_ruVoice) u.voice = _ruVoice;
   window.speechSynthesis.speak(u);
 }
@@ -599,9 +604,9 @@ function speakAllWords(btn, listId){
   function next(){
     if(i>=words.length) return;
     const u = new SpeechSynthesisUtterance(ruPart(words[i]));
-    u.lang='ru-RU'; u.rate=0.85;
+    u.lang='ru-RU'; u.rate=SPEECH_RATE; u.pitch=1;
     if(_ruVoice) u.voice=_ruVoice;
-    u.onend = ()=>{ i++; next(); };
+    u.onend = ()=>{ i++; setTimeout(next, 350); }; // sözlər arasında qısa fasilə — daha rahat izlənilir
     window.speechSynthesis.speak(u);
   }
   next();
