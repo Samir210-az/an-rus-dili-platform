@@ -631,7 +631,7 @@ function renderLessons(){
         <div><h3>${l.title}</h3><div class="meta">${l.meta}</div></div>
       </div>
       <div class="lesson-body" id="body-${l.id}">
-        <p>${l.desc}</p>
+        ${l.desc.split('\n\n').map(p=>`<p>${p}</p>`).join('')}
         <div class="word-chips">${l.words.map(w=>`<div class="chip" onclick="speakChip(this)" data-w="${escAttr(w)}" style="cursor:pointer" title="Tələffüzü dinlə"><span class="spk">🔊</span> ${w}</div>`).join('')}</div>
         <button class="small-btn" style="background:var(--gold-dark);margin:0 0 14px" onclick="speakAllWords(this)" data-words="${encodeURIComponent(JSON.stringify(l.words))}">🔊 Bütün sözləri dinlə</button>
         <div class="hw-box">
@@ -666,7 +666,7 @@ function downloadHomework(id){
   .box{background:#FEF3E8;border-left:4px solid #6A0000;padding:18px;border-radius:10px;margin-top:20px}
   footer{margin-top:30px;font-size:12px;color:#7A6A60;text-align:center}</style></head>
   <body><h1>${l.emoji} ${l.title}</h1><div class="meta">${l.meta}</div>
-  <p>${l.desc}</p>
+  ${l.desc.split('\n\n').map(p=>`<p>${p}</p>`).join('')}
   <div class="box"><h3>📝 Ev tapşırığı</h3><ol>${l.hw.map(h=>`<li>${h}</li>`).join('')}</ol></div>
   <footer>AN Psixoloji Dəstək və Reabilitasiya Mərkəzi — Rus Dili Tədris Proqramı<br>By s_akhundoff</footer>
   </body></html>`;
