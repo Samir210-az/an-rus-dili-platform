@@ -249,6 +249,7 @@ footer .top a{color:rgba(255,255,255,.85)}
   <div class="game-tabs">
     <div class="game-tab active" data-g="memory" onclick="switchGame('memory')" data-i18n="gameMemTab">🧠 Yaddaş Oyunu</div>
     <div class="game-tab" data-g="quiz" onclick="switchGame('quiz')" data-i18n="gameQuizTab">❓ Sürətli Test</div>
+    <div class="game-tab" data-g="dialogue" onclick="switchGame('dialogue')">💬 Dialoq Simulyasiyası</div>
   </div>
   <div id="gameMemory">
     <div class="game-info" id="memInfo" data-i18n="memInfoText">Cütləri tapın!</div>
@@ -261,6 +262,15 @@ footer .top a{color:rgba(255,255,255,.85)}
         <button class="btn btn-gold" onclick="startQuickQuiz()" data-i18n="quizStartBtn">Testə Başla</button>
       </div>
       <div id="quizGameBody" style="display:none"></div>
+    </div>
+  </div>
+  <div id="gameDialogue" style="display:none">
+    <div class="quiz-game-box" style="max-width:600px">
+      <div id="dialogueChooser">
+        <p style="margin-bottom:16px;color:var(--muted);text-align:center">Real həyat ssenarisi seçin və rus dilində düzgün ünsiyyət qurmağa çalışın.</p>
+        <div id="dialogueScenarios" style="display:flex;flex-direction:column;gap:10px"></div>
+      </div>
+      <div id="dialogueBody" style="display:none"></div>
     </div>
   </div>
 </section>
@@ -677,6 +687,8 @@ function switchGame(g){
   document.querySelectorAll('.game-tab').forEach(t=>t.classList.toggle('active', t.dataset.g===g));
   document.getElementById('gameMemory').style.display = g==='memory'?'block':'none';
   document.getElementById('gameQuiz').style.display = g==='quiz'?'block':'none';
+  document.getElementById('gameDialogue').style.display = g==='dialogue'?'block':'none';
+  if(g==='dialogue') renderDialogueChooser();
 }
 const MEM_WORDS = [['А','Аист 🦩'],['Б','Бабочка 🦋'],['Мама','Ana'],['Кошка','Pişik 🐱'],['Дом','Ev 🏠'],['Солнце','Günəş ☀️'],['Один','1'],['Спасибо','Sağ ol 🙏']];
 let memState=[];
@@ -734,6 +746,66 @@ function finishQuickQuiz(){
     if(sel && parseInt(sel.value)===q.a) score++;
   });
   document.getElementById('quickQuizResult').innerHTML = `<div class="qz-result ${score>=6?'ok':'fail'}" style="margin-top:14px">Nəticə: ${score}/10</div>`;
+}
+
+/* ---------- DİALOQ SİMULYASİYASI ---------- */
+function renderDialogueChooser(){
+  document.getElementById('dialogueChooser').style.display='block';
+  document.getElementById('dialogueBody').style.display='none';
+  document.getElementById('dialogueScenarios').innerHTML = DIALOGUES.map(d=>`
+    <button class="small-btn" style="padding:14px;font-size:14px;text-align:left" onclick="startDialogue('${d.id}')">${d.emoji} ${d.title} <span style="font-weight:400;opacity:.85">— ${d.desc}</span></button>
+  `).join('');
+}
+function startDialogue(id){
+  const d = DIALOGUES.find(x=>x.id===id);
+  window._dlgData = d;
+  window._dlgStep = 0;
+  window._dlgScore = 0;
+  document.getElementById('dialogueChooser').style.display='none';
+  const body = document.getElementById('dialogueBody');
+  body.style.display='block';
+  renderDialogueStep();
+}
+function renderDialogueStep(){
+  const d = window._dlgData;
+  const step = d.steps[window._dlgStep];
+  const body = document.getElementById('dialogueBody');
+  body.innerHTML = `
+    <div style="background:var(--card);border-radius:14px;padding:16px;margin-bottom:14px">
+      <div style="font-size:12px;color:var(--gold-dark);font-weight:700;margin-bottom:6px">👤 Satıcı/Həmsöhbət</div>
+      <div style="font-size:15px;color:var(--bordo)">${step.npc}</div>
+      <button class="small-btn" style="background:var(--teal);margin-top:8px;font-size:11px" onclick="speakRu('${step.npc.replace(/'/g,"\\'")}')">🔊 Dinlə</button>
+    </div>
+    <div id="dlgChoices">${step.choices.map((c,ci)=>`<button class="qz-opt" style="width:100%;text-align:left;margin-bottom:8px;cursor:pointer;background:#fff" onclick="answerDialogue(${ci})">${c.text}</button>`).join('')}</div>
+    <div id="dlgFeedback"></div>
+  `;
+}
+function answerDialogue(ci){
+  const d = window._dlgData;
+  const step = d.steps[window._dlgStep];
+  const choice = step.choices[ci];
+  if(choice.correct) window._dlgScore++;
+  document.getElementById('dlgChoices').querySelectorAll('button').forEach(b=>b.disabled=true);
+  document.getElementById('dlgFeedback').innerHTML = `
+    <div class="qz-result ${choice.correct?'ok':'fail'}">${choice.correct?'✅':'❌'} ${choice.feedback}</div>
+    <button class="btn btn-gold" style="width:100%;margin-top:10px" onclick="nextDialogueStep()">${window._dlgStep < d.steps.length-1 ? 'Davam et' : 'Bitir'}</button>
+  `;
+}
+function nextDialogueStep(){
+  const d = window._dlgData;
+  window._dlgStep++;
+  if(window._dlgStep >= d.steps.length){
+    const pct = Math.round(window._dlgScore/d.steps.length*100);
+    document.getElementById('dialogueBody').innerHTML = `
+      <div style="text-align:center;padding:20px 0">
+        <div style="font-size:40px">${pct>=70?'🎉':'💪'}</div>
+        <h3 style="color:var(--bordo);margin:10px 0">Ssenari bitdi!</h3>
+        <p style="color:var(--muted)">Nəticə: ${window._dlgScore}/${d.steps.length} (${pct}%)</p>
+        <button class="btn btn-outline" style="margin-top:14px;color:var(--bordo);border-color:var(--bordo)" onclick="renderDialogueChooser()">← Başqa ssenari seç</button>
+      </div>`;
+    return;
+  }
+  renderDialogueStep();
 }
 
 /* ---------- DATA STORE ---------- */
