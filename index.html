@@ -210,6 +210,9 @@ footer .top a{color:rgba(255,255,255,.85)}
     <button class="track-tab" data-track="adult" onclick="switchTrack('adult')">🎓 Yeniyetmə / Böyük <span class="track-age">CEFR A1–B2</span></button>
   </div>
   <div class="cta-row">
+    <button class="btn btn-outline" style="background:rgba(255,255,255,.08)" onclick="openPlacementTest()">🎯 Səviyyəmi test et</button>
+  </div>
+  <div class="cta-row">
     <a href="#plan" class="btn btn-gold" data-i18n="ctaPlan">Dərs Cədvəli</a>
     <a href="#lessons" class="btn btn-outline" data-i18n="ctaLessons">Dərslərə Bax</a>
     <a href="#games" class="btn btn-outline" data-i18n="ctaGames">Testlər & Oyunlar</a>
@@ -287,6 +290,19 @@ footer .top a{color:rgba(255,255,255,.85)}
     <div class="field"><label data-i18n="labelPass">Şifrə</label><input id="loginPass" type="password"> <label style="display:flex;align-items:center;gap:6px;margin-top:6px;font-weight:400"><input type="checkbox" onclick="document.getElementById('loginPass').type=this.checked?'text':'password'" style="width:auto"> <span data-i18n="showPass">Şifrəni göstər</span></label></div>
     <button class="submit-btn" onclick="doLogin()" data-i18n="loginSubmit">Daxil ol</button>
     <p class="hint">Admin: admin / admin2026</p>
+  </div>
+</div>
+
+<div class="modal-overlay" id="placementOverlay">
+  <div class="modal" style="max-width:560px">
+    <button class="close" onclick="closePlacementTest()">✕</button>
+    <h3>🎯 Səviyyəmi Test Et</h3>
+    <div id="placementIntro">
+      <p style="color:var(--muted);font-size:13.5px;margin-bottom:16px">A1-dən B2-yə qədər hər səviyyədən qarışıq 12 sual. Nəticəyə görə sizə uyğun başlanğıc səviyyəsi tövsiyə olunacaq.</p>
+      <button class="btn btn-gold" style="width:100%" onclick="startPlacementTest()">Testə Başla</button>
+    </div>
+    <div id="placementBody" style="display:none;max-height:60vh;overflow-y:auto"></div>
+    <div id="placementResult"></div>
   </div>
 </div>
 
@@ -734,6 +750,69 @@ let selectedRole='admin';
 function selectRole(r){ selectedRole=r; document.querySelectorAll('.role-tab').forEach(t=>t.classList.toggle('active',t.dataset.role===r)); }
 function openLogin(){document.getElementById('loginOverlay').classList.add('open');}
 function closeLogin(){document.getElementById('loginOverlay').classList.remove('open');}
+
+/* ---------- PLACEMENT TEST ---------- */
+function openPlacementTest(){
+  document.getElementById('placementIntro').style.display='block';
+  document.getElementById('placementBody').style.display='none';
+  document.getElementById('placementBody').innerHTML='';
+  document.getElementById('placementResult').innerHTML='';
+  document.getElementById('placementOverlay').classList.add('open');
+}
+function closePlacementTest(){ document.getElementById('placementOverlay').classList.remove('open'); }
+function startPlacementTest(){
+  const pool=[];
+  ADULT_LEVELS.forEach(lv=>{
+    lv.lessons.forEach(l=>{ l.quiz.forEach(q=>pool.push({...q, levelId:lv.id})); });
+  });
+  // Hər səviyyədən 3 sual seç
+  const byLevel={};
+  pool.forEach(q=>{ (byLevel[q.levelId]=byLevel[q.levelId]||[]).push(q); });
+  let selected=[];
+  Object.keys(byLevel).forEach(lvId=>{
+    const arr=byLevel[lvId].sort(()=>Math.random()-0.5).slice(0,3);
+    selected=selected.concat(arr);
+  });
+  selected.sort(()=>Math.random()-0.5);
+  window._placementData = selected;
+  document.getElementById('placementIntro').style.display='none';
+  const body=document.getElementById('placementBody');
+  body.style.display='block';
+  body.innerHTML = selected.map((q,qi)=>`
+    <div class="qz-q">${qi+1}. ${q.q}</div>
+    <div class="qz-opts">${q.o.map((opt,oi)=>`<label class="qz-opt"><input type="radio" name="pt-${qi}" value="${oi}"> ${opt}</label>`).join('')}</div>
+  `).join('') + `<button class="btn btn-gold" style="width:100%;margin-top:10px" onclick="finishPlacementTest()">Nəticəni Gör</button>`;
+}
+function finishPlacementTest(){
+  const selected = window._placementData;
+  let score=0;
+  selected.forEach((q,qi)=>{
+    const sel=document.querySelector(`input[name="pt-${qi}"]:checked`);
+    if(sel && parseInt(sel.value)===q.a) score++;
+  });
+  const pct = Math.round(score/selected.length*100);
+  let level, levelName;
+  if(pct<=30){level='a1';levelName='A1 — Başlanğıc';}
+  else if(pct<=55){level='a2';levelName='A2 — Elementar';}
+  else if(pct<=75){level='b1';levelName='B1 — Orta';}
+  else {level='b2';levelName='B2 — Yuxarı Orta';}
+  document.getElementById('placementBody').innerHTML='';
+  document.getElementById('placementResult').innerHTML = `
+    <div style="text-align:center;padding:10px 0">
+      <div style="font-size:38px;margin-bottom:8px">🎯</div>
+      <p style="font-size:14px;color:var(--muted)">Nəticəniz: <b>${score}/${selected.length} (${pct}%)</b></p>
+      <h3 style="color:var(--bordo);margin:10px 0">Tövsiyə olunan səviyyə: ${levelName}</h3>
+      <button class="btn btn-gold" style="width:100%;margin-top:10px" onclick="applyPlacementResult('${level}')">Bu Səviyyədən Başla</button>
+    </div>`;
+}
+function applyPlacementResult(level){
+  closePlacementTest();
+  switchTrack('adult');
+  curLevel = level;
+  renderLevelTabs();
+  renderLessons();
+  document.getElementById('lessons').scrollIntoView({behavior:'smooth'});
+}
 
 function norm(s){ return (s||'').normalize('NFC').trim().toLowerCase(); }
 
