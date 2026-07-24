@@ -194,3 +194,56 @@ const ADULT_LEVELS = [
  quiz:[{q:'B2 proqramı bitdikdən sonra hansı səviyyəyə hazırlıq tövsiyə olunur?',o:['A1','B1','C1'],a:2},{q:'Bütün proqram (A1-B2) neçə dərsdən ibarətdir?',o:['24','36','48'],a:2}]}
 ]}
 ];
+
+/* =========================================================
+   DIALOGUES — Dialoq Simulyasiyası (Yeniyetmə/Böyük trek)
+   Hər ssenari addım-addım gedir: NPC replikası → şagird seçimi → rəy
+   ========================================================= */
+const DIALOGUES = [
+{id:'shop',emoji:'🛒',title:'Mağazada',desc:'Mağazada alış-veriş edirsiniz. Satıcı ilə düzgün ünsiyyət qurun.',
+ steps:[
+  {npc:'Здравствуйте! Чем могу помочь?',choices:[
+    {text:'Здравствуйте! Я хочу купить хлеб.',correct:true,feedback:'Əla! Nəzakətli və düzgün cavab — məqsədinizi aydın bildirdiniz.'},
+    {text:'Дай хлеб.',correct:false,feedback:'Bu, çox kobud səslənir. Satıcıya "Вы" ilə və nəzakətlə müraciət etmək lazımdır.'},
+    {text:'Пока.',correct:false,feedback:'"Pока" vidalaşma sözüdür, burada uyğun deyil.'}
+  ]},
+  {npc:'Конечно! Вот хлеб. Что-нибудь ещё?',choices:[
+    {text:'Да, дайте, пожалуйста, молоко.',correct:true,feedback:'Düzgün! "Дайте, пожалуйста" nəzakətli xahiş formasıdır.'},
+    {text:'Молоко давай быстро.',correct:false,feedback:'Kobud və tələsdirici səslənir. Nəzakətli forma daha yaxşıdır.'}
+  ]},
+  {npc:'Хорошо. Это будет 5 манат. Наличными или картой?',choices:[
+    {text:'Картой, пожалуйста.',correct:true,feedback:'Düzgün! Ödəniş üsulunu aydın bildirdiniz.'},
+    {text:'Что такое карта?',correct:false,feedback:'Kontekstə uyğun deyil — satıcı artıq ödəniş üsulunu soruşub.'}
+  ]}
+ ]},
+{id:'restaurant',emoji:'🍽️',title:'Restoranda',desc:'Restoranda sifariş verirsiniz. Nəzakətli və aydın danışın.',
+ steps:[
+  {npc:'Добрый вечер! Что будете заказывать?',choices:[
+    {text:'Добрый вечер! Я хотел бы борщ и чай, пожалуйста.',correct:true,feedback:'Əla! "Я хотел бы" nəzakətli istək formasıdır, restoran üçün ən uyğunudur.'},
+    {text:'Дай еду.',correct:false,feedback:'Çox qeyri-müəyyən və kobud. Konkret sifariş verməli və nəzakətli olmalısınız.'}
+  ]},
+  {npc:'Хорошо! Что-нибудь на десерт?',choices:[
+    {text:'Нет, спасибо, это всё.',correct:true,feedback:'Düzgün — nəzakətlə imtina etdiniz və sifarişi bağladınız.'},
+    {text:'Да не знаю.',correct:false,feedback:'Qeyri-müəyyən cavab. Aydın "bəli/xeyr" bildirmək daha yaxşıdır.'}
+  ]},
+  {npc:'Приятного аппетита! Счёт принести позже?',choices:[
+    {text:'Да, спасибо, попозже.',correct:true,feedback:'Əla! Nəzakətli razılıq bildirdiniz.'},
+    {text:'Счёт сейчас же!',correct:false,feedback:'Çox kəskin səslənir, kontekstlə (sifariş hələ yeni gəlib) uyğun deyil.'}
+  ]}
+ ]},
+{id:'phone',emoji:'📞',title:'Telefon danışığı',desc:'İş yerinə zəng edib görüş təyin edirsiniz.',
+ steps:[
+  {npc:'Алло! Компания "Старт", слушаю вас.',choices:[
+    {text:'Здравствуйте! Можно попросить Анну Ивановну?',correct:true,feedback:'Düzgün! Rəsmi telefon danışığı üçün ideal başlanğıc.'},
+    {text:'Алло кто это?',correct:false,feedback:'Zəng edən şəxs özünü təqdim etməli və kimi axtardığını deməlidir.'}
+  ]},
+  {npc:'Одну минуту, я вас соединяю.',choices:[
+    {text:'Спасибо, жду.',correct:true,feedback:'Əla, nəzakətli gözləmə cavabı.'},
+    {text:'Быстрее давай.',correct:false,feedback:'Kobud səslənir — rəsmi kontekstdə uyğun deyil.'}
+  ]},
+  {npc:'Здравствуйте, слушаю вас.',choices:[
+    {text:'Здравствуйте! Я хотел бы договориться о встрече.',correct:true,feedback:'Mükəmməl! Rəsmi və aydın məqsəd bildirmə.'},
+    {text:'Хочу встречу.',correct:false,feedback:'Çox qısa və kobud. Tam və nəzakətli cümlə lazımdır.'}
+  ]}
+ ]}
+];
