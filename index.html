@@ -91,7 +91,8 @@ section{padding:50px 20px}
 .lesson-body.open{display:block}
 .lesson-body p{color:var(--text);font-size:14px;margin-bottom:10px}
 .word-chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
-.chip{background:var(--card);border:1px solid var(--gold-light);color:var(--bordo);padding:7px 13px;border-radius:20px;font-size:12.5px;font-weight:600}
+.chip{background:var(--card);border:1px solid var(--gold-light);color:var(--bordo);padding:7px 13px;border-radius:20px;font-size:12.5px;font-weight:600;transition:.2s}
+.chip:hover{background:var(--gold-light);color:var(--bordo-deep);transform:translateY(-1px)}
 .hw-box{background:var(--card);border-left:4px solid var(--bordo);border-radius:12px;padding:16px;margin-top:14px}
 .hw-box h4{color:var(--bordo);margin-bottom:8px;font-size:14px}
 .hw-box ol{margin:10px 0 12px 20px;font-size:13.5px}
@@ -522,10 +523,52 @@ function renderAlphaWords(){
   document.getElementById('alphaWords').innerHTML = `
     <div class="lesson-card"><div class="lesson-body open" style="padding-top:20px">
       <h3 style="color:var(--bordo);margin-bottom:12px">Hərf: ${a.l}</h3>
-      <div class="word-chips">${a.w.map(w=>`<div class="chip">${w}</div>`).join('')}</div>
+      <div class="word-chips">${a.w.map(w=>`<div class="chip" onclick="speakChip(this)" data-w="${escAttr(w)}" style="cursor:pointer" title="Tələffüzü dinlə">🔊 ${w}</div>`).join('')}</div>
     </div></div>`;
 }
 renderAlphabetGrid();
+
+/* ---------- SƏS / TƏLƏFFÜZ (Web Speech API) ---------- */
+function escAttr(s){ return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function ruPart(chipText){
+  const parts = chipText.split(/ [—–] /);
+  return parts[0].trim();
+}
+let _ruVoice = null;
+function pickRuVoice(){
+  if(!('speechSynthesis' in window)) return;
+  const voices = window.speechSynthesis.getVoices();
+  _ruVoice = voices.find(v=>v.lang && v.lang.toLowerCase().startsWith('ru')) || null;
+}
+if('speechSynthesis' in window){
+  pickRuVoice();
+  window.speechSynthesis.onvoiceschanged = pickRuVoice;
+}
+function speakRu(text){
+  if(!('speechSynthesis' in window)){ alert('Təəssüf ki, brauzeriniz səsli oxumanı dəstəkləmir. Chrome və ya Edge istifadə edin.'); return; }
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'ru-RU';
+  u.rate = 0.85;
+  if(_ruVoice) u.voice = _ruVoice;
+  window.speechSynthesis.speak(u);
+}
+function speakChip(el){ speakRu(ruPart(el.dataset.w)); }
+function speakAllWords(btn, listId){
+  const words = JSON.parse(decodeURIComponent(btn.dataset.words));
+  if(!('speechSynthesis' in window)){ alert('Təəssüf ki, brauzeriniz səsli oxumanı dəstəkləmir.'); return; }
+  window.speechSynthesis.cancel();
+  let i=0;
+  function next(){
+    if(i>=words.length) return;
+    const u = new SpeechSynthesisUtterance(ruPart(words[i]));
+    u.lang='ru-RU'; u.rate=0.85;
+    if(_ruVoice) u.voice=_ruVoice;
+    u.onend = ()=>{ i++; next(); };
+    window.speechSynthesis.speak(u);
+  }
+  next();
+}
 
 /* ---------- RENDER LESSONS ---------- */
 let curLevel = 'lvl1';
@@ -547,7 +590,8 @@ function renderLessons(){
       </div>
       <div class="lesson-body" id="body-${l.id}">
         <p>${l.desc}</p>
-        <div class="word-chips">${l.words.map(w=>`<div class="chip">${w}</div>`).join('')}</div>
+        <div class="word-chips">${l.words.map(w=>`<div class="chip" onclick="speakChip(this)" data-w="${escAttr(w)}" style="cursor:pointer" title="Tələffüzü dinlə">🔊 ${w}</div>`).join('')}</div>
+        <button class="small-btn" style="background:var(--gold-dark);margin:0 0 14px" onclick="speakAllWords(this)" data-words="${encodeURIComponent(JSON.stringify(l.words))}">🔊 Bütün sözləri dinlə</button>
         <div class="hw-box">
           <h4>📝 Ev tapşırığı</h4>
           <ol>${l.hw.map(h=>`<li>${h}</li>`).join('')}</ol>
