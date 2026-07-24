@@ -479,6 +479,7 @@ let curTrack = 'child';
 let LEVELS = CHILD_LEVELS;
 let ALL_LESSONS = LEVELS.flatMap(l=>l.lessons);
 function recomputeLevels(){ ALL_LESSONS = LEVELS.flatMap(l=>l.lessons); }
+const TOTAL_LESSONS_ALL_TRACKS = CHILD_LEVELS.flatMap(l=>l.lessons).length + ADULT_LEVELS.flatMap(l=>l.lessons).length;
 function switchTrack(t){
   curTrack = t;
   LEVELS = (t==='adult') ? ADULT_LEVELS : CHILD_LEVELS;
@@ -932,7 +933,9 @@ function studentOverallPct(studentUser){
   if(!results.length) return null;
   const score=results.reduce((s,r)=>s+r.score,0);
   const total=results.reduce((s,r)=>s+r.total,0);
-  return {pct:Math.round(score/total*100), count:results.length, total:ALL_LESSONS.length};
+  // Sabit ümumi dərs sayı (uşaq + böyük trek birlikdə) — admin/müəllimin hansı trekdə olmasından asılı deyil
+  const totalLessonsCombined = CHILD_LEVELS.flatMap(l=>l.lessons).length + ADULT_LEVELS.flatMap(l=>l.lessons).length;
+  return {pct:Math.round(score/total*100), count:results.length, total:totalLessonsCombined};
 }
 
 /* ---- ADMIN ---- */
@@ -971,9 +974,9 @@ function renderResultsTable(){
   return `<table class="res-table"><tr><th>Şagird</th><th>Tamamlanan dərs</th><th>Orta nəticə</th><th>Səviyyə</th></tr>` +
     d.students.map(s=>{
       const r=studentOverallPct(s.user);
-      if(!r) return `<tr><td>${s.name}</td><td>0/${ALL_LESSONS.length}</td><td>—</td><td class="empty">Test yoxdur</td></tr>`;
+      if(!r) return `<tr><td>${s.name}</td><td>0/${TOTAL_LESSONS_ALL_TRACKS}</td><td>—</td><td class="empty">Test yoxdur</td></tr>`;
       const g=gradeLabel(r.pct);
-      return `<tr><td>${s.name}</td><td>${r.count}/${ALL_LESSONS.length}</td><td>${r.pct}%</td><td><span class="grade-pill ${g.cls}">${g.label}</span></td></tr>`;
+      return `<tr><td>${s.name}</td><td>${r.count}/${r.total}</td><td>${r.pct}%</td><td><span class="grade-pill ${g.cls}">${g.label}</span></td></tr>`;
     }).join('') + `</table>`;
 }
 let credsVisible=false;
@@ -1041,7 +1044,7 @@ function renderStudent(){
   if(!r){ reportEl.innerHTML='<div class="empty">Hələ heç bir test tamamlamamısınız.</div>'; }
   else{
     const g=gradeLabel(r.pct);
-    reportEl.innerHTML = `<p>Tamamlanan testlər: <b>${r.count}/${ALL_LESSONS.length}</b></p><p>Ümumi nəticə: <b>${r.pct}%</b></p><p>Səviyyə: <span class="grade-pill ${g.cls}">${g.label}</span></p>`;
+    reportEl.innerHTML = `<p>Tamamlanan testlər: <b>${r.count}/${r.total}</b></p><p>Ümumi nəticə: <b>${r.pct}%</b></p><p>Səviyyə: <span class="grade-pill ${g.cls}">${g.label}</span></p>`;
   }
 }
 function registerAttendance(){
@@ -1063,7 +1066,7 @@ function downloadStudentReport(){
   footer{margin-top:30px;font-size:12px;color:#7A6A60;text-align:center}</style></head>
   <body><h1>🏆 Qiymətləndirmə Hesabatı</h1>
   <p><b>Şagird:</b> ${window._curStudent.name}</p>
-  <div class="box"><p><b>Tamamlanan testlər:</b> ${r?r.count:0}/${ALL_LESSONS.length}</p><p><b>Ümumi nəticə:</b> ${r?r.pct+'%':'—'}</p><p><b>Səviyyə:</b> ${g.label}</p></div>
+  <div class="box"><p><b>Tamamlanan testlər:</b> ${r?r.count:0}/${r?r.total:TOTAL_LESSONS_ALL_TRACKS}</p><p><b>Ümumi nəticə:</b> ${r?r.pct+'%':'—'}</p><p><b>Səviyyə:</b> ${g.label}</p></div>
   <h3 style="margin-top:20px">Müəllim qeydləri</h3>
   <table><tr><th>Tarix</th><th>Qiymət</th><th>Qeyd</th><th>Müəllim</th></tr>
   ${notes.map(n=>`<tr><td>${n.date}</td><td>${n.grade||'-'}</td><td>${n.note||''}</td><td>${n.teacher}</td></tr>`).join('')}
