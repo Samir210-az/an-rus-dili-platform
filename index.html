@@ -96,6 +96,9 @@ section{padding:50px 20px}
 .chip:active{transform:scale(.96)}
 .chip:hover{background:var(--gold-light);color:var(--bordo-deep);transform:translateY(-1px)}
 .hw-box{background:var(--card);border-left:4px solid var(--bordo);border-radius:12px;padding:16px;margin-top:14px}
+.sentence-box{background:#FDF8F2;border-left:4px solid var(--teal);border-radius:12px;padding:16px;margin-top:14px}
+.sentence-list{margin:8px 0 0 18px;font-size:13.5px;line-height:1.9}
+.sentence-list li{margin-bottom:4px}
 .hw-box h4{color:var(--bordo);margin-bottom:8px;font-size:14px}
 .hw-box ol{margin:10px 0 12px 20px;font-size:13.5px}
 .hw-box li{margin-bottom:5px}
@@ -634,6 +637,11 @@ function renderLessons(){
         ${l.desc.split('\n\n').map(p=>`<p>${p}</p>`).join('')}
         <div class="word-chips">${l.words.map(w=>`<div class="chip" onclick="speakChip(this)" data-w="${escAttr(w)}" style="cursor:pointer" title="Tələffüzü dinlə"><span class="spk">🔊</span> ${w}</div>`).join('')}</div>
         <button class="small-btn" style="background:var(--gold-dark);margin:0 0 14px" onclick="speakAllWords(this)" data-words="${encodeURIComponent(JSON.stringify(l.words))}">🔊 Bütün sözləri dinlə</button>
+        ${l.sentences && l.sentences.length ? `
+        <div class="sentence-box">
+          <h4>💬 Nümunə cümlələr</h4>
+          <ol class="sentence-list">${l.sentences.map(s=>`<li><span onclick="speakRu(ruPart('${s.replace(/'/g,"\\'")}'))" style="cursor:pointer" title="Tələffüzü dinlə">🔊 ${s}</span></li>`).join('')}</ol>
+        </div>` : ''}
         <div class="hw-box">
           <h4>📝 Ev tapşırığı</h4>
           <ol>${l.hw.map(h=>`<li>${h}</li>`).join('')}</ol>
