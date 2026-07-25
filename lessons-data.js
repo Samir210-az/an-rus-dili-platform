@@ -2877,5 +2877,113 @@ const DIALOGUES = [
     {text:'До свидания, спасибо за помощь!',correct:true,feedback:'Mükəmməl! Rəsmi və səmimi vidalaşma.'},
     {text:'Пока.',correct:false,feedback:'Rəsmi telefon danışığı üçün bir az çox qeyri-rəsmi səslənir.'}
   ]}
+ ]},
+{id:'tourist',emoji:'🗺️',title:'Turist kimi',desc:'Şəhərdə turistsiniz və gid ilə muzeydə danışırsınız.',
+ steps:[
+  {npc:'Добро пожаловать в музей! Хотите взять экскурсию?',choices:[
+    {text:'Да, с удовольствием! Сколько стоит экскурсия?',correct:true,feedback:'Əla! Maraq göstərmə və qiymət soruşma nəzakətli formadır.'},
+    {text:'Экскурсия дай.',correct:false,feedback:'Kobud və qrammatik cəhətdən yanlış cümlə.'}
+  ]},
+  {npc:'Экскурсия стоит десять манат. Она длится час.',choices:[
+    {text:'Хорошо, я согласен. Когда начало?',correct:true,feedback:'Düzgün! Razılıq bildirib əlavə sual verdiniz.'},
+    {text:'Дорого очень!',correct:false,feedback:'Kobud səslənir, turist kimi daha nəzakətli reaksiya vermək lazımdır.'}
+  ]},
+  {npc:'Экскурсия начинается через десять минут. Откуда вы приехали?',choices:[
+    {text:'Я приехал из Азербайджана, из Баку.',correct:true,feedback:'Əla! Aydın və tam cavab verdiniz.'},
+    {text:'Из другой страны.',correct:false,feedback:'Çox qeyri-müəyyən cavab, konkret ölkə/şəhər adı demək daha yaxşıdır.'}
+  ]},
+  {npc:'Прекрасно! А это главный зал музея. Можно фотографировать.',choices:[
+    {text:'Спасибо! Можно задать вопрос об этой картине?',correct:true,feedback:'Mükəmməl! Maraqla sual vermə turist üçün ideal davranışdır.'},
+    {text:'Ладно.',correct:false,feedback:'Çox neytral, maraq göstərmək daha yaxşı təsir bağışlayır.'}
+  ]},
+  {npc:'Конечно! Эта картина написана в девятнадцатом веке.',choices:[
+    {text:'Как интересно! Спасибо за информацию.',correct:true,feedback:'Əla! Maraq və minnətdarlıq bildirdiniz.'},
+    {text:'Не интересно.',correct:false,feedback:'Kobud və nəzakətsiz reaksiya — gid çox səy göstərib.'}
+  ]},
+  {npc:'Экскурсия закончена. Понравилось вам у нас?',choices:[
+    {text:'Очень понравилось! Большое спасибо за экскурсию!',correct:true,feedback:'Mükəmməl! Səmimi minnətdarlıq bildirən tam cümlə.'},
+    {text:'Нормально было.',correct:false,feedback:'Laqeyd səslənir, daha müsbət və konkret rəy vermək yaxşı olardı.'}
+  ]}
+ ]},
+{id:'meeting',emoji:'🤝',title:'Yeni tanışlıq',desc:'Dostunuzun tədbirində yeni bir insanla tanış olursunuz.',
+ steps:[
+  {npc:'Здравствуйте! Кажется, мы не знакомы. Меня зовут Виктор.',choices:[
+    {text:'Здравствуйте! Очень приятно, меня зовут...',correct:true,feedback:'Əla! Standart və nəzakətli tanışlıq formasıdır.'},
+    {text:'А кто вы?',correct:false,feedback:'Bir az kobud səslənir — əvvəlcə özünüzü təqdim etmək daha nəzakətlidir.'}
+  ]},
+  {npc:'Очень приятно! Вы тоже друг Анны?',choices:[
+    {text:'Да, мы учились вместе в университете.',correct:true,feedback:'Düzgün! Aydın və dostcasına cavab verdiniz.'},
+    {text:'Не ваше дело.',correct:false,feedback:'Çox kobud cavab, sadə sosial sual üçün uyğun deyil.'}
+  ]},
+  {npc:'Понятно! А чем вы занимаетесь?',choices:[
+    {text:'Я работаю программистом. А вы?',correct:true,feedback:'Əla! Cavab verib qarşı tərəfə də sual verdiniz — söhbəti davam etdirdiniz.'},
+    {text:'Работаю.',correct:false,feedback:'Çox qısa cavab, söhbəti davam etdirmir.'}
+  ]},
+  {npc:'Я инженер. Вы давно живёте в этом городе?',choices:[
+    {text:'Уже три года. А вы здесь родились?',correct:true,feedback:'Mükəmməl! Söhbəti təbii şəkildə davam etdirdiniz.'},
+    {text:'Давно.',correct:false,feedback:'Çox qısa cavab, söhbətə maraq göstərmirsiniz kimi görünür.'}
+  ]},
+  {npc:'Да, я здесь родился. Хотите ещё кофе?',choices:[
+    {text:'Да, с удовольствием, спасибо!',correct:true,feedback:'Əla! Nəzakətli və müsbət razılıq.'},
+    {text:'Не хочу.',correct:false,feedback:'Bir az kəskin səslənir, "спасибо, не нужно" daha yumşaq olardı.'}
+  ]},
+  {npc:'Было очень приятно познакомиться!',choices:[
+    {text:'Мне тоже! Может, обменяемся номерами?',correct:true,feedback:'Mükəmməl! Səmimi və təbii davam etmə təklifi.'},
+    {text:'Ладно, до свидания.',correct:false,feedback:'Bir az soyuq səslənir, daha isti reaksiya gözlənilir.'}
+  ]}
+ ]},
+{id:'doctor',emoji:'🏥',title:'Həkimdə',desc:'Özünüzü yaxşı hiss etmirsiniz və həkimə müraciət edirsiniz.',
+ steps:[
+  {npc:'Здравствуйте! Что вас беспокоит?',choices:[
+    {text:'Здравствуйте! У меня болит горло и голова.',correct:true,feedback:'Əla! Simptomları aydın və konkret bildirdiniz.'},
+    {text:'Мне плохо вообще.',correct:false,feedback:'Çox qeyri-müəyyən — həkimə konkret simptom demək lazımdır.'}
+  ]},
+  {npc:'Понятно. У вас есть температура?',choices:[
+    {text:'Да, вчера была температура тридцать восемь.',correct:true,feedback:'Düzgün! Dəqiq məlumat verdiniz, bu diaqnoz üçün vacibdir.'},
+    {text:'Не знаю, не мерил.',correct:false,feedback:'Mümkünsə temperaturu ölçüb dəqiq cavab vermək daha faydalıdır.'}
+  ]},
+  {npc:'Давайте я вас осмотрю. Откройте рот, пожалуйста.',choices:[
+    {text:'Хорошо, доктор.',correct:true,feedback:'Əla! Sadə və əməkdaşlıq göstərən cavab.'},
+    {text:'Зачем это надо?',correct:false,feedback:'Həkimin təlimatına etimadla yanaşmaq daha yaxşıdır.'}
+  ]},
+  {npc:'У вас ангина. Я выпишу вам рецепт.',choices:[
+    {text:'Спасибо, доктор. Как часто принимать лекарство?',correct:true,feedback:'Mükəmməl! Müalicə haqqında dəqiq sual verdiniz.'},
+    {text:'Ладно, давайте рецепт.',correct:false,feedback:'Bir az kobud, dozaj haqqında soruşmaq daha faydalı və nəzakətli olardı.'}
+  ]},
+  {npc:'Три раза в день после еды, пять дней.',choices:[
+    {text:'Хорошо, я понял. Спасибо за помощь!',correct:true,feedback:'Əla! Təlimatı təsdiqləyib minnətdarlıq bildirdiniz.'},
+    {text:'Ладно, посмотрим.',correct:false,feedback:'Bir az laqeyd səslənir — müalicəyə ciddi yanaşmaq vacibdir.'}
+  ]},
+  {npc:'Выздоравливайте! Если не станет лучше, приходите снова.',choices:[
+    {text:'Обязательно! Спасибо за консультацию, до свидания!',correct:true,feedback:'Mükəmməl! Səmimi minnətdarlıq və düzgün vidalaşma.'},
+    {text:'Пока.',correct:false,feedback:'Həkimlə rəsmi kontekstdə bir az daha tam vidalaşma gözlənilir.'}
+  ]}
+ ]},
+{id:'hotel',emoji:'🏨',title:'Mehmanxanada qeydiyyat',desc:'Mehmanxanaya çatmısınız və qeydiyyatdan keçirsiniz.',
+ steps:[
+  {npc:'Добрый день! Добро пожаловать в наш отель. У вас есть бронь?',choices:[
+    {text:'Добрый день! Да, у меня забронирован номер на моё имя.',correct:true,feedback:'Əla! Aydın və rəsmi giriş cümləsi.'},
+    {text:'Есть комната или нет?',correct:false,feedback:'Bir az kobud, əvvəlcə salamlaşıb sonra sual vermək daha nəzakətlidir.'}
+  ]},
+  {npc:'Как ваша фамилия, пожалуйста?',choices:[
+    {text:'Моя фамилия Ахундов.',correct:true,feedback:'Düzgün! Sadə və birbaşa cavab.'},
+    {text:'Зачем вам это?',correct:false,feedback:'Bu, standart qeydiyyat prosedurudur, sual vermək lazım deyil.'}
+  ]},
+  {npc:'Нашёл вас! Номер на третьем этаже. Нужна помощь с багажом?',choices:[
+    {text:'Да, пожалуйста, было бы отлично.',correct:true,feedback:'Əla! Nəzakətli qəbul edilmiş kömək təklifi.'},
+    {text:'Сам донесу, не надо.',correct:false,feedback:'Bu cavab da düzgündür, amma "спасибо" əlavə etmək daha nəzakətli olardı.'}
+  ]},
+  {npc:'Вот ваш ключ. Завтрак с семи до десяти утра.',choices:[
+    {text:'Спасибо! А где находится ресторан?',correct:true,feedback:'Mükəmməl! Faydalı əlavə sual verdiniz.'},
+    {text:'Хорошо.',correct:false,feedback:'Çox qısa cavab — əlavə sual vermək daha faydalıdır.'}
+  ]},
+  {npc:'Ресторан на первом этаже, рядом с ресепшн.',choices:[
+    {text:'Понятно, спасибо большое за информацию!',correct:true,feedback:'Əla! Aydın minnətdarlıq bildirdiniz.'},
+    {text:'Ладно.',correct:false,feedback:'Bir az laqeyd səslənir, minnətdarlıq bildirmək daha yaxşıdır.'}
+  ]},
+  {npc:'Если понадобится помощь, звоните на ресепшн. Приятного отдыха!',choices:[
+    {text:'Спасибо большое, обязательно позвоню!',correct:true,feedback:'Mükəmməl! Səmimi və nəzakətli tamamlama.'},
+    {text:'Хорошо, пока.',correct:false,feedback:'Mehmanxana işçisi ilə rəsmi kontekstdə "пока" bir az qeyri-adekvat səslənir.'}
+  ]}
  ]}
 ];
