@@ -2807,9 +2807,21 @@ const DIALOGUES = [
     {text:'Да, дайте, пожалуйста, молоко.',correct:true,feedback:'Düzgün! "Дайте, пожалуйста" nəzakətli xahiş formasıdır.'},
     {text:'Молоко давай быстро.',correct:false,feedback:'Kobud və tələsdirici səslənir. Nəzakətli forma daha yaxşıdır.'}
   ]},
-  {npc:'Хорошо. Это будет 5 манат. Наличными или картой?',choices:[
+  {npc:'Хорошо. Сколько вам нужно молока?',choices:[
+    {text:'Одну упаковку, пожалуйста.',correct:true,feedback:'Əla! Dəqiq və nəzakətli cavab verdiniz.'},
+    {text:'Не знаю.',correct:false,feedback:'Qeyri-müəyyən cavab. Aydın miqdar bildirmək daha yaxşıdır.'}
+  ]},
+  {npc:'Это будет пять манат. Наличными или картой?',choices:[
     {text:'Картой, пожалуйста.',correct:true,feedback:'Düzgün! Ödəniş üsulunu aydın bildirdiniz.'},
     {text:'Что такое карта?',correct:false,feedback:'Kontekstə uyğun deyil — satıcı artıq ödəniş üsulunu soruşub.'}
+  ]},
+  {npc:'Вот ваш чек. Нужен пакет?',choices:[
+    {text:'Да, пожалуйста, один пакет.',correct:true,feedback:'Əla! Aydın və nəzakətli xahiş.'},
+    {text:'Мне всё равно.',correct:false,feedback:'Laqeyd cavab — konkret cavab vermək daha yaxşı təsir bağışlayır.'}
+  ]},
+  {npc:'Спасибо за покупку! Хорошего дня!',choices:[
+    {text:'Спасибо, вам тоже! До свидания!',correct:true,feedback:'Mükəmməl! Nəzakətli və tam vidalaşma cümləsi.'},
+    {text:'Пока.',correct:false,feedback:'Çox qısa səslənir — mağazada müştəri-satıcı münasibətində bir az daha rəsmi vidalaşma gözlənilir.'}
   ]}
  ]},
 {id:'restaurant',emoji:'🍽️',title:'Restoranda',desc:'Restoranda sifariş verirsiniz. Nəzakətli və aydın danışın.',
@@ -2822,9 +2834,21 @@ const DIALOGUES = [
     {text:'Нет, спасибо, это всё.',correct:true,feedback:'Düzgün — nəzakətlə imtina etdiniz və sifarişi bağladınız.'},
     {text:'Да не знаю.',correct:false,feedback:'Qeyri-müəyyən cavab. Aydın "bəli/xeyr" bildirmək daha yaxşıdır.'}
   ]},
-  {npc:'Приятного аппетита! Счёт принести позже?',choices:[
-    {text:'Да, спасибо, попозже.',correct:true,feedback:'Əla! Nəzakətli razılıq bildirdiniz.'},
-    {text:'Счёт сейчас же!',correct:false,feedback:'Çox kəskin səslənir, kontekstlə (sifariş hələ yeni gəlib) uyğun deyil.'}
+  {npc:'Приятного аппетита! Как вам блюдо?',choices:[
+    {text:'Очень вкусно, спасибо!',correct:true,feedback:'Əla! Müsbət və nəzakətli rəy bildirdiniz.'},
+    {text:'Нормально.',correct:false,feedback:'Laqeyd səslənir — bir az daha müsbət və konkret rəy vermək daha yaxşıdır.'}
+  ]},
+  {npc:'Рад это слышать! Хотите ещё что-нибудь?',choices:[
+    {text:'Нет, спасибо, всё отлично.',correct:true,feedback:'Mükəmməl! Aydın və nəzakətli cavab.'},
+    {text:'Не знаю.',correct:false,feedback:'Qeyri-müəyyən cavab restoranda vaxt itkisinə səbəb ola bilər.'}
+  ]},
+  {npc:'Счёт принести?',choices:[
+    {text:'Да, пожалуйста.',correct:true,feedback:'Əla! Sadə və nəzakətli razılıq.'},
+    {text:'Счёт сейчас же!',correct:false,feedback:'Çox kəskin səslənir, kontekstlə uyğun deyil.'}
+  ]},
+  {npc:'Вот счёт. Приходите к нам ещё!',choices:[
+    {text:'Спасибо, обязательно приду!',correct:true,feedback:'Mükəmməl! Səmimi və nəzakətli vidalaşma cümləsi.'},
+    {text:'Ладно.',correct:false,feedback:'Çox neytral və bir az laqeyd səslənir — daha isti cavab gözlənilir.'}
   ]}
  ]},
 {id:'phone',emoji:'📞',title:'Telefon danışığı',desc:'İş yerinə zəng edib görüş təyin edirsiniz.',
@@ -2840,6 +2864,18 @@ const DIALOGUES = [
   {npc:'Здравствуйте, слушаю вас.',choices:[
     {text:'Здравствуйте! Я хотел бы договориться о встрече.',correct:true,feedback:'Mükəmməl! Rəsmi və aydın məqsəd bildirmə.'},
     {text:'Хочу встречу.',correct:false,feedback:'Çox qısa və kobud. Tam və nəzakətli cümlə lazımdır.'}
+  ]},
+  {npc:'Хорошо. Когда вам удобно?',choices:[
+    {text:'Завтра в три часа, если можно.',correct:true,feedback:'Əla! Konkret vaxt təklif etdiniz və nəzakətli forma işlətdiniz.'},
+    {text:'Не знаю когда.',correct:false,feedback:'Qeyri-müəyyən cavab — konkret vaxt təklif etmək daha peşəkar görünür.'}
+  ]},
+  {npc:'Хорошо, записываю. Что-нибудь ещё?',choices:[
+    {text:'Нет, спасибо, это всё.',correct:true,feedback:'Düzgün! Aydın və nəzakətli tamamlama.'},
+    {text:'Да не знаю.',correct:false,feedback:'Qeyri-müəyyən cavab söhbəti uzada bilər.'}
+  ]},
+  {npc:'Отлично, до встречи! Всего доброго!',choices:[
+    {text:'До свидания, спасибо за помощь!',correct:true,feedback:'Mükəmməl! Rəsmi və səmimi vidalaşma.'},
+    {text:'Пока.',correct:false,feedback:'Rəsmi telefon danışığı üçün bir az çox qeyri-rəsmi səslənir.'}
   ]}
  ]}
 ];
