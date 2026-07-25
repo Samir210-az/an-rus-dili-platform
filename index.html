@@ -275,7 +275,7 @@ footer .top a{color:rgba(255,255,255,.85)}
   <div id="gameQuiz" style="display:none">
     <div class="quiz-game-box">
       <div id="quizGameStart">
-        <p style="margin-bottom:16px;color:var(--muted)" data-i18n="quizGameDesc">10 sualdan ibarət qarışıq sürətli test — bütün dərslərdən!</p>
+        <p style="margin-bottom:16px;color:var(--muted)" data-i18n="quizGameDesc">30 sualdan ibarət qarışıq sürətli test — bütün dərslərdən!</p>
         <button class="btn btn-gold" onclick="startQuickQuiz()" data-i18n="quizStartBtn">Testə Başla</button>
       </div>
       <div id="quizGameBody" style="display:none"></div>
@@ -470,7 +470,7 @@ const TR = {
  gameMemTab:{az:'🧠 Yaddaş Oyunu',ru:'🧠 Игра на память'},
  gameQuizTab:{az:'❓ Sürətli Test',ru:'❓ Быстрый тест'},
  memInfoText:{az:'Cütləri tapın!',ru:'Найдите пары!'},
- quizGameDesc:{az:'10 sualdan ibarət qarışıq sürətli test — bütün dərslərdən!',ru:'Быстрый тест из 10 вопросов по всем урокам!'},
+ quizGameDesc:{az:'30 sualdan ibarət qarışıq sürətli test — bütün dərslərdən!',ru:'Быстрый тест из 30 вопросов по всем урокам!'},
  quizStartBtn:{az:'Testə Başla',ru:'Начать тест'},
  contactTitle:{az:'Əlaqə',ru:'Контакты'},
  phoneLabel:{az:'Telefon',ru:'Телефон'},
@@ -795,7 +795,7 @@ function startQuickQuiz(){
   let pool=[];
   ALL_LESSONS.forEach(l=>l.quiz.forEach(q=>pool.push(q)));
   pool.sort(()=>Math.random()-0.5);
-  const selected = pool.slice(0,10);
+  const selected = pool.slice(0,30);
   document.getElementById('quizGameStart').style.display='none';
   const body=document.getElementById('quizGameBody');
   body.style.display='block';
@@ -812,7 +812,7 @@ function finishQuickQuiz(){
     const sel=document.querySelector(`input[name="qq-${qi}"]:checked`);
     if(sel && parseInt(sel.value)===q.a) score++;
   });
-  document.getElementById('quickQuizResult').innerHTML = `<div class="qz-result ${score>=6?'ok':'fail'}" style="margin-top:14px">Nəticə: ${score}/10</div>`;
+  document.getElementById('quickQuizResult').innerHTML = `<div class="qz-result ${score>=18?'ok':'fail'}" style="margin-top:14px">Nəticə: ${score}/30</div>`;
 }
 
 /* ---------- DİALOQ SİMULYASİYASI ---------- */
