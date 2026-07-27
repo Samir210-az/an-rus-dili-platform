@@ -813,6 +813,7 @@ function finishQuickQuiz(){
     if(sel && parseInt(sel.value)===q.a) score++;
   });
   document.getElementById('quickQuizResult').innerHTML = `<div class="qz-result ${score>=18?'ok':'fail'}" style="margin-top:14px">Nəticə: ${score}/30</div>`;
+  window.sgTrackTest && window.sgTrackTest('Rus Dili — Quick Test', score+'/30 — '+(score>=18?'Keçdi':'Keçmədi'));
 }
 
 /* ---------- DİALOQ SİMULYASİYASI ---------- */
@@ -943,6 +944,7 @@ function finishPlacementTest(){
       <h3 style="color:var(--bordo);margin:10px 0">Tövsiyə olunan səviyyə: ${levelName}</h3>
       <button class="btn btn-gold" style="width:100%;margin-top:10px" onclick="applyPlacementResult('${level}')">Bu Səviyyədən Başla</button>
     </div>`;
+  window.sgTrackTest && window.sgTrackTest('Rus Dili — Səviyyə Testi', score+'/'+selected.length+' ('+pct+'%) — '+levelName);
 }
 function applyPlacementResult(level){
   closePlacementTest();
@@ -1149,5 +1151,6 @@ function downloadStudentReport(){
   });
 }
 </script>
+<script type="module" src="https://samir210-az.github.io/menyu/analytics.js"></script>
 </body>
 </html>
