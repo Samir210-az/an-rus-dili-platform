@@ -316,7 +316,7 @@ footer .top a{color:rgba(255,255,255,.85)}
     <div class="field"><label data-i18n="labelUser">İstifadəçi adı</label><input id="loginUser" type="text"></div>
     <div class="field"><label data-i18n="labelPass">Şifrə</label><input id="loginPass" type="password"> <label style="display:flex;align-items:center;gap:6px;margin-top:6px;font-weight:400"><input type="checkbox" onclick="document.getElementById('loginPass').type=this.checked?'text':'password'" style="width:auto"> <span data-i18n="showPass">Şifrəni göstər</span></label></div>
     <button class="submit-btn" onclick="doLogin()" data-i18n="loginSubmit">Daxil ol</button>
-    <p class="hint">Admin: admin / AN2026EA</p>
+    <p class="hint">Admin: admin / AL2026EA</p>
   </div>
 </div>
 
@@ -885,7 +885,7 @@ function db(){
 }
 function saveDb(d){localStorage.setItem('rd_db',JSON.stringify(d));}
 
-const ADMIN_USER='admin', ADMIN_DEFAULT_PASS='AN2026EA';
+const ADMIN_USER='admin', ADMIN_DEFAULT_PASS='AL2026EA';
 let selectedRole='admin';
 function selectRole(r){ selectedRole=r; document.querySelectorAll('.role-tab').forEach(t=>t.classList.toggle('active',t.dataset.role===r)); }
 function openLogin(){document.getElementById('loginOverlay').classList.add('open');}
