@@ -1,11 +1,15 @@
-const CACHE_NAME = 'rus-dili-v2';
+const CACHE_NAME = 'rus-dili-v3';
 const ASSETS = [
   './',
   './index.html',
+  './lessons-data.js?v=20260725b',
+  './yenilenme.js',
   './manifest.json',
   './assets/logo.png',
   './assets/icon-192.png',
-  './assets/icon-512.png'
+  './assets/icon-512.png',
+  './assets/icon-192.png?v=2',
+  './assets/icon-512.png?v=2'
 ];
 
 self.addEventListener('install', e => {
