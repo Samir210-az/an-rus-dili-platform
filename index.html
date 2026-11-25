@@ -959,7 +959,9 @@ function renderLoginMode(){
   document.getElementById('adminSetup').hidden=!setup;
   btn.dataset.i18n=key;
   btn.textContent=TR[key][localStorage.getItem('rd_lang')||'az'];
-  if(setup && !document.getElementById('loginUser').value) document.getElementById('loginUser').value=ADMIN_USER;
+  const user=document.getElementById('loginUser');
+  if(selectedRole==='admin') user.value=ADMIN_USER;
+  else if(user.value===ADMIN_USER) user.value='';
 }
 function setLoginMode(admin){
   const title=document.getElementById('loginHeading'), key=admin?'adminLoginTitle':'loginTitle';
