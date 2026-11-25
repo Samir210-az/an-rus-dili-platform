@@ -336,6 +336,7 @@ footer .top a{color:rgba(255,255,255,.85)}
       <p class="hint" data-i18n="adminSetupHint" style="margin-bottom:8px">Bu cihazda admin şifrəsi hələ yaradılmayıb. İstifadəçi adı admin, şifrə ən azı 8 simvol olmalıdır.</p>
     </div>
     <button class="submit-btn" id="loginSubmitBtn" onclick="doLogin()" data-i18n="loginSubmit">Daxil ol</button>
+    <p class="hint" data-i18n="localNote" style="margin-top:12px">Hesablar, qeydlər və test nəticələri yalnız bu cihazın bu brauzerində saxlanılır. Başqa cihazda və ya brauzer məlumatları silindikdə görünməyəcək.</p>
   </div>
 </div>
 
@@ -409,6 +410,7 @@ footer .top a{color:rgba(255,255,255,.85)}
 <div class="dash" id="teacherDash">
   <div class="dash-header"><div class="who">👩‍🏫 Müəllim Paneli — <span id="teacherNameShow"></span></div><button class="logout-btn" onclick="logout()">Çıxış</button></div>
   <div class="dash-body">
+    <p class="hint" style="margin:0 0 16px">Hesablar, qeydlər və test nəticələri yalnız bu cihazın bu brauzerində saxlanılır.</p>
     <div class="card">
       <h3>📝 Şagirdə qiymət / davranış qeydi əlavə et</h3>
       <div class="form-row">
@@ -432,6 +434,7 @@ footer .top a{color:rgba(255,255,255,.85)}
 <div class="dash" id="studentDash">
   <div class="dash-header"><div class="who">🎓 Şagird Paneli — <span id="studentNameShow"></span></div><button class="logout-btn" onclick="logout()">Çıxış</button></div>
   <div class="dash-body">
+    <p class="hint" style="margin:0 0 16px">Hesablar, qeydlər və test nəticələri yalnız bu cihazın bu brauzerində saxlanılır.</p>
     <div class="card">
       <h3>📖 Dərslərim və iştirak</h3>
       <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Dərsi seçib açın. Testi yoxladıqda nəticə yekun qiymətləndirməyə yazılır.</p>
@@ -464,7 +467,7 @@ footer .top a{color:rgba(255,255,255,.85)}
     <a href="https://instagram.com/an_psixologiyamerkezi" target="_blank">📷 AN Mərkəzi</a>
   </div>
   <div data-i18n="footerLine">© 2026 AN Psixoloji Dəstək və Reabilitasiya Mərkəzi — Rus Dili Tədris Proqramı</div>
-  <div style="margin-top:6px"><a class="ig" href="https://aze-ai.az" target="_blank" rel="noopener">By securtiy_group</a></div>
+  <div style="margin-top:6px"><a class="ig" href="https://aze-ai.az" target="_blank" rel="noopener">By security_group</a></div>
 </footer>
 
 <a href="https://wa.me/994554157215" target="_blank" id="waFloat" aria-label="WhatsApp ilə yaz" style="position:fixed;bottom:22px;right:22px;z-index:200;background:#25D366;color:#fff;width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 6px 20px rgba(0,0,0,.25)">💬</a>
@@ -512,6 +515,7 @@ const TR = {
  labelUser:{az:'İstifadəçi adı',ru:'Имя пользователя'},
  labelPass:{az:'Şifrə',ru:'Пароль'},
  showPass:{az:'Şifrəni göstər',ru:'Показать пароль'},
+ localNote:{az:'Hesablar, qeydlər və test nəticələri yalnız bu cihazın bu brauzerində saxlanılır. Başqa cihazda və ya brauzer məlumatları silindikdə görünməyəcək.',ru:'Аккаунты, заметки и результаты тестов хранятся только в этом браузере на этом устройстве. На другом устройстве или после очистки данных браузера их не будет.'},
  loginSubmit:{az:'Daxil ol',ru:'Войти'},
  adminCreate:{az:'Şifrə yarat və daxil ol',ru:'Создать пароль и войти'},
  labelPass2:{az:'Şifrəni təkrar yazın',ru:'Повторите пароль'},
@@ -780,7 +784,7 @@ function downloadHomework(id){
   <body><h1>${l.emoji} ${l.title}</h1><div class="meta">${l.meta}</div>
   ${l.desc.split('\n\n').map(p=>`<p>${p}</p>`).join('')}
   <div class="box"><h3>📝 Ev tapşırığı</h3><ol>${l.hw.map(h=>`<li>${h}</li>`).join('')}</ol></div>
-  <footer>AN Psixoloji Dəstək və Reabilitasiya Mərkəzi — Rus Dili Tədris Proqramı<br><a href="https://aze-ai.az">By securtiy_group</a></footer>
+  <footer>AN Psixoloji Dəstək və Reabilitasiya Mərkəzi — Rus Dili Tədris Proqramı<br><a href="https://aze-ai.az">By security_group</a></footer>
   </body></html>`;
   const blob=new Blob([html],{type:'text/html'});
   const a=document.createElement('a');
@@ -1281,7 +1285,7 @@ function downloadStudentReport(){
   <table><tr><th>Tarix</th><th>Qiymət</th><th>Qeyd</th><th>Müəllim</th></tr>
   ${notes.map(n=>`<tr><td>${esc(n.date)}</td><td>${esc(n.grade||'-')}</td><td>${esc(n.note)}</td><td>${esc(n.teacher)}</td></tr>`).join('')}
   </table>
-  <footer>AN Psixoloji Dəstək və Reabilitasiya Mərkəzi — Rus Dili Tədris Proqramı<br><a href="https://aze-ai.az">By securtiy_group</a></footer>
+  <footer>AN Psixoloji Dəstək və Reabilitasiya Mərkəzi — Rus Dili Tədris Proqramı<br><a href="https://aze-ai.az">By security_group</a></footer>
   </body></html>`;
   const blob=new Blob([html],{type:'text/html'});
   const a=document.createElement('a');
