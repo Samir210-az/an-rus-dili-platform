@@ -44,7 +44,7 @@ button{cursor:pointer;font-family:'Inter',sans-serif;border:none}
 header{position:sticky;top:0;z-index:100;background:var(--bordo);color:#fff;box-shadow:var(--shadow)}
 .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;max-width:1100px;margin:0 auto}
 .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
-.brand img{width:42px;height:42px;border-radius:10px;background:#fff;object-fit:contain;padding:3px}
+.brand img{width:42px;height:42px;border-radius:10px;background:#fff;object-fit:contain;padding:3px;touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
 .nav-links{display:none;gap:18px}
 .nav-links a{font-size:13px;font-weight:500;color:rgba(255,255,255,.85)}
 .nav-links a:hover{color:var(--gold-light)}
@@ -204,7 +204,7 @@ footer .top a{color:rgba(255,255,255,.85)}
 
 <header>
   <div class="nav">
-    <div class="brand"><img src="assets/logo.png" alt="logo"><span data-i18n="brand">Rus Dili Tədris</span></div>
+    <div class="brand"><img src="assets/logo.png" alt="logo" id="brandLogo" draggable="false"><span data-i18n="brand">Rus Dili Tədris</span></div>
     <nav class="nav-links">
       <a href="#plan" data-i18n="navPlan">Cədvəl</a>
       <a href="#lessons" data-i18n="navLessons">Dərslər</a>
@@ -325,8 +325,7 @@ footer .top a{color:rgba(255,255,255,.85)}
     <button class="close" aria-label="Bağla" onclick="closeLogin()">✕</button>
     <h3 id="loginHeading" data-i18n="loginTitle">Hesaba Giriş</h3>
     <div class="role-tabs">
-      <div class="role-tab active" data-role="admin" role="button" tabindex="0" onclick="selectRole('admin')">Admin</div>
-      <div class="role-tab" data-role="teacher" role="button" tabindex="0" onclick="selectRole('teacher')" data-i18n="roleTeacher">Müəllim</div>
+      <div class="role-tab active" data-role="teacher" role="button" tabindex="0" onclick="selectRole('teacher')" data-i18n="roleTeacher">Müəllim</div>
       <div class="role-tab" data-role="student" role="button" tabindex="0" onclick="selectRole('student')" data-i18n="roleStudent">Şagird</div>
     </div>
     <div class="field"><label for="loginUser" data-i18n="labelUser">İstifadəçi adı</label><input id="loginUser" type="text" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false"></div>
@@ -510,6 +509,7 @@ const TR = {
  phoneLabel:{az:'Telefon',ru:'Телефон'},
  centerLabel:{az:'Mərkəz',ru:'Центр'},
  loginTitle:{az:'Hesaba Giriş',ru:'Вход в аккаунт'},
+ adminLoginTitle:{az:'Admin girişi',ru:'Вход администратора'},
  roleTeacher:{az:'Müəllim',ru:'Учитель'},
  roleStudent:{az:'Şagird',ru:'Ученик'},
  labelUser:{az:'İstifadəçi adı',ru:'Имя пользователя'},
@@ -950,7 +950,7 @@ function db(){
 }
 function saveDb(d){localStorage.setItem('rd_db',JSON.stringify(d));}
 
-let selectedRole='admin';
+let selectedRole='teacher';
 function selectRole(r){ selectedRole=r; document.querySelectorAll('.role-tab').forEach(t=>t.classList.toggle('active',t.dataset.role===r)); renderLoginMode(); }
 function renderLoginMode(){
   const setup=needsAdminSetup();
@@ -961,7 +961,24 @@ function renderLoginMode(){
   btn.textContent=TR[key][localStorage.getItem('rd_lang')||'az'];
   if(setup && !document.getElementById('loginUser').value) document.getElementById('loginUser').value=ADMIN_USER;
 }
-function openLogin(){ renderLoginMode(); document.getElementById('loginOverlay').classList.add('open'); }
+function setLoginMode(admin){
+  const title=document.getElementById('loginHeading'), key=admin?'adminLoginTitle':'loginTitle';
+  document.querySelector('#loginOverlay .role-tabs').hidden=admin;
+  title.dataset.i18n=key;
+  title.textContent=TR[key][localStorage.getItem('rd_lang')||'az'];
+  selectRole(admin?'admin':(selectedRole==='admin'?'teacher':selectedRole));
+}
+function openLogin(admin=false){ setLoginMode(admin); document.getElementById('loginOverlay').classList.add('open'); }
+// admin girişi gizlidir: loqoya 3 saniyə ərzində 5 dəfə toxunmaq
+(function(){
+  let taps=0, timer;
+  document.getElementById('brandLogo').addEventListener('click',()=>{
+    if(!taps) timer=setTimeout(()=>{ taps=0; },3000);
+    if(++taps<5) return;
+    taps=0; clearTimeout(timer);
+    openLogin(true);
+  });
+})();
 function closeLogin(){
   document.getElementById('loginOverlay').classList.remove('open');
   ['loginUser','loginPass','loginPass2'].forEach(id=>document.getElementById(id).value='');
